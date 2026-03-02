@@ -225,7 +225,13 @@ html, body {
 .section-header::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, transparent, var(--bangladesh-red), transparent); border-radius: 2px; }
 
 /* Navigation */
-.nav-green { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
+.nav-green { 
+    background: rgba(255, 255, 255, 0.15); 
+    backdrop-filter: blur(20px); 
+    -webkit-backdrop-filter: blur(20px); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3); 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
+}
 .nav-link { position: relative; }
 .nav-link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 2px; background: var(--bangladesh-green); transition: width 0.3s ease; }
 .nav-link:hover::after { width: 100%; }
