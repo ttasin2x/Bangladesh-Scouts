@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scout Code & Cipher Decoder Pro</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        /* True Light & Dark Mode Variables */
+        :root {
+            --primary: #0ea5e9;
+            --primary-hover: #0284c7;
+            --primary-light: #f0f9ff;
+            --primary-gradient: linear-gradient(135deg, #0284c7 0%, #38bdf8 100%);
+            --bg-gradient: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning-bg: #fef2f2;
+            --warning-text: #991b1b;
+            --input-bg: #f1f5f9;
+            --border-color: #e2e8f0;
+            --result-bg: #0f172a;
+            --result-text: #38bdf8;
+            --nav-btn-bg: #ffffff;
+            --nav-btn-border: #e2e8f0;
+            --card-shadow: 0 20px 40px -10px rgba(0,0,0,0.08);
+            --inner-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: #020617;
+            --card-bg: #0f172a;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --primary-light: #1e293b;
+            --warning-bg: rgba(239, 68, 68, 0.15);
+            --warning-text: #fca5a5;
+            --input-bg: #1e293b;
+            --border-color: #334155;
+            --result-bg: #000000;
+            --result-text: #7dd3fc;
+            --nav-btn-bg: #1e293b;
+            --nav-btn-border: #334155;
+            --card-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+            --inner-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--text-main);
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* Updated padding-top to make room for top buttons */
+        header { text-align: center; color: var(--text-main); padding: 70px 20px 10px; animation: fadeInDown 0.8s ease; }
+        h1 { font-size: 2.8em; margin-bottom: 10px; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .subtitle { font-size: 1.1em; color: var(--primary); font-weight: 600; }
+        
+        /* Back Button */
+        .back-btn {
+            position: absolute; top: 20px; left: 20px; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-main); padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; z-index: 10; font-family: 'Outfit', sans-serif; text-decoration: none;
+        }
+        .back-btn i { font-size: 1.2em; color: var(--primary); }
+        .back-btn:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); color: var(--primary); }
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            position: absolute; top: 20px; right: 20px; background: var(--card-bg); border: 2px solid var(--border-color); color: var(--text-main); padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; z-index: 10; font-family: 'Outfit', sans-serif;
+        }
+        .theme-toggle-btn i { font-size: 1.2em; color: var(--primary); }
+        .theme-toggle-btn:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+
+        /* Disclaimer Banner */
+        .disclaimer-banner {
+            background: var(--warning-bg); border-left: 4px solid var(--danger); color: var(--warning-text); padding: 12px 18px; margin: 0 auto 20px auto; border-radius: 6px 12px 12px 6px; font-size: 0.88em; line-height: 1.5; display: flex; align-items: flex-start; gap: 12px; animation: fadeIn 1s ease; max-width: 850px; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.05);
+        }
+        .disclaimer-banner i { color: var(--danger); font-size: 1.6em; flex-shrink: 0; margin-top: 2px; }
+        .disclaimer-banner strong { color: var(--danger); font-weight: 800; }
+
+        /* Modern App Navigation */
+        .app-nav { display: flex; gap: 10px; overflow-x: auto; padding: 10px 5px; margin-bottom: 25px; scrollbar-width: none; }
+        .app-nav::-webkit-scrollbar { display: none; }
+        .app-nav-btn {
+            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--nav-btn-border); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.95em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-family: 'Outfit', sans-serif;
+        }
+        .app-nav-btn i { font-size: 1.2em; color: var(--text-muted); transition: 0.3s; }
+        .app-nav-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+        .app-nav-btn:hover i { color: var(--primary); }
+        .app-nav-btn.active { background: var(--primary-gradient); color: white; border: none; box-shadow: 0 8px 20px rgba(2, 132, 199, 0.3); transform: translateY(-2px); }
+        .app-nav-btn.active i { color: white; }
+
+        /* Card Container & Animations */
+        .cipher-view { display: none; animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; flex-grow: 1; }
+        .cipher-view.active-view { display: block; }
+        
+        /* Premium Card Design */
+        .cipher-card {
+            background: var(--card-bg); border-radius: 24px; padding: 35px; box-shadow: var(--card-shadow); position: relative; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 20px; transition: all 0.3s ease;
+        }
+        .cipher-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--primary-gradient); }
+        .cipher-card:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1), var(--card-shadow); }
+        
+        .cipher-title { color: var(--text-main); font-size: 1.6em; margin-bottom: 15px; font-weight: 800; display: flex; align-items: center; gap: 12px; padding-bottom: 15px;}
+        .cipher-icon { font-size: 1.3em; background: var(--primary-light); padding: 10px; border-radius: 12px; color: var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: var(--inner-shadow); }
+        
+        /* Info Box */
+        .info-box { background: var(--input-bg); border-left: 4px solid var(--primary); padding: 14px 16px; margin: 0 0 20px 0; border-radius: 8px 16px 16px 8px; font-size: 0.95em; color: var(--text-main); line-height: 1.5; border: 1px solid var(--border-color); border-left-width: 4px; box-shadow: var(--inner-shadow); }
+        
+        /* Input Box */
+        .input-group { margin: 15px 0; position: relative; }
+        label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-muted); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+        input[type="text"], input[type="number"] {
+            width: 100%; padding: 16px 20px; border: 2px solid var(--border-color); border-radius: 16px; font-size: 1.05em; transition: 0.3s; background: var(--input-bg); color: var(--text-main); font-weight: 500; font-family: 'Outfit', sans-serif; box-shadow: var(--inner-shadow); outline: none;
+        }
+        input:focus { border-color: var(--primary); background: var(--card-bg); box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15); }
+        
+        /* Buttons */
+        .btn { background: var(--primary-gradient); color: white; border: none; padding: 12px 24px; border-radius: 12px; cursor: pointer; font-size: 1em; font-weight: 700; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; justify-content: center; font-family: 'Outfit', sans-serif; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2); }
+        .btn i { font-size: 1.2em; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
+        .btn-secondary { background: var(--input-bg); color: var(--text-main); border: 1px solid var(--border-color); box-shadow: none; }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .btn-danger { background: var(--danger); color: white; border: none; padding: 8px 16px; font-size: 0.9em; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2); }
+        
+        /* Tech/Hacker Style Result Box */
+        .result-box { background: var(--result-bg); border-radius: 16px; padding: 20px; margin-top: 20px; min-height: 80px; font-family: 'Space Mono', monospace; font-size: 1.2em; word-break: break-all; position: relative; color: var(--result-text); font-weight: 700; border: 1px solid var(--border-color); transition: all 0.3s ease; letter-spacing: 0.5px; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1); }
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; border-bottom: 1px dashed rgba(100, 116, 139, 0.3); padding-bottom: 12px; font-family: 'Outfit', sans-serif; }
+        .result-label { font-weight: 800; color: var(--text-muted); font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; }
+        
+        .action-group { display: flex; gap: 8px; }
+        .action-btn { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.85em; color: var(--text-main); transition: 0.2s; font-weight: 700; display: flex; align-items: center; gap: 6px; font-family: 'Outfit', sans-serif; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .action-btn i { font-size: 1.2em; color: var(--text-muted); transition: 0.2s;}
+        .action-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(14, 165, 233, 0.2); }
+        .action-btn:hover i { color: white; }
+        .action-btn.copy:hover { background: var(--success); border-color: var(--success); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2); }
+        
+        .empty-state { color: var(--text-muted); font-weight: normal; font-size: 0.85em; font-family: 'Outfit', sans-serif; font-style: italic; opacity: 0.7; }
+        
+        .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .tab-btn { flex: 1; padding: 12px; background: transparent; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.95em; font-family: 'Outfit', sans-serif; }
+        .tab-btn i { font-size: 1.2em; }
+        .tab-btn:hover { color: var(--text-main); }
+        .tab-btn.active { background: var(--card-bg); color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        
+        /* Other Visual Adjustments */
+        .shift-control { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: var(--input-bg); padding: 10px; border-radius: 16px; border: 1px solid var(--border-color); }
+        .shift-value { font-size: 1.4em; font-weight: 700; color: var(--primary); min-width: 80px; text-align: center; font-family: 'Space Mono', monospace; }
+        
+        .mapping-table { display: flex; flex-direction: column; margin: 15px 0; border: 1px solid var(--border-color); border-radius: 12px; overflow-x: auto; font-family: 'Space Mono', monospace; background: var(--card-bg); padding-bottom: 4px; box-shadow: var(--inner-shadow); }
+        .mapping-table::-webkit-scrollbar { height: 6px; }
+        .mapping-table::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+        .map-row { display: flex; padding: 10px; min-width: max-content; align-items: center; }
+        .map-row.cipher-row { background: var(--input-bg); font-weight: bold; color: var(--primary); border-bottom: 1px solid var(--border-color); }
+        .map-row.text-row { color: var(--text-main); font-weight: bold; }
+        .map-label { width: 70px; flex-shrink: 0; font-size: 0.85em; font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--text-muted); }
+        .map-char { width: 24px; text-align: center; display: inline-block; font-size: 1em; }
+
+        /* History Boxes */
+        .history-list { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
+        .history-list::-webkit-scrollbar { width: 6px; }
+        .history-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+        .history-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; position: relative; transition: 0.2s; box-shadow: var(--inner-shadow); }
+        .history-item:hover { border-color: var(--primary); }
+        .h-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
+        .h-badge { background: var(--primary-light); color: var(--primary); padding: 4px 8px; border-radius: 6px; font-size: 0.8em; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .h-date { font-size: 0.8em; color: var(--text-muted); font-weight: 500; }
+        .h-content { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-family: 'Space Mono', monospace; font-size: 1em; }
+        .h-box { background: var(--card-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); word-break: break-all; color: var(--text-main); font-weight: 700; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .h-label { font-family: 'Outfit', sans-serif; font-size: 0.75em; color: var(--text-muted); text-transform: uppercase; font-weight: 800; margin-bottom: 6px; display: block; letter-spacing: 0.5px; }
+        .del-btn { position: absolute; top: 12px; right: 12px; background: var(--danger); color: white; border: none; width: 28px; height: 28px; font-size: 1em; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; opacity: 0.8; transition: 0.2s; }
+        .del-btn:hover { opacity: 1; transform: scale(1.1); box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); }
+
+        /* Pigpen, Column, Morse Visuals */
+        .pigpen-key-container { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 10px; margin: 15px 0; padding: 20px; background: var(--input-bg); border-radius: 16px; border: 2px dashed var(--border-color); font-family: 'Space Mono', monospace; }
+        .pg-grid { border-collapse: collapse; text-align: center; font-size: 1.1em; color: var(--text-main); }
+        .pg-grid td { width: 30px; height: 30px; font-weight: bold; border-color: var(--text-main); }
+        .pg-grid td sup { color: var(--primary); font-size: 0.7em; }
+        .b-lr { border-left: 2px solid var(--text-main); border-right: 2px solid var(--text-main); }
+        .b-tb { border-top: 2px solid var(--text-main); border-bottom: 2px solid var(--text-main); }
+        .b-all { border: 2px solid var(--text-main); }
+        .pg-x-wrapper { position: relative; width: 50px; height: 50px; font-weight: bold; color: var(--text-main); font-size: 1.1em; }
+        .pg-x-bg { position: absolute; width: 100%; height: 100%; }
+        .pg-x-bg::before, .pg-x-bg::after { content: ''; position: absolute; width: 140%; height: 2px; background: var(--text-main); top: 50%; left: -20%; }
+        .pg-x-bg::before { transform: rotate(45deg); }
+        .pg-x-bg::after { transform: rotate(-45deg); }
+        .pg-x-char { position: absolute; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: var(--input-bg); z-index: 2; border-radius: 50%; }
+        .pg-x-t { top: -4px; left: 15px; } .pg-x-b { bottom: -4px; left: 15px; } .pg-x-l { top: 15px; left: -4px; } .pg-x-r { top: 15px; right: -4px; }
+        
+        .col-grid-container { display: grid; gap: 4px; margin: 15px auto; background: var(--border-color); border: 2px solid var(--border-color); border-radius: 8px; width: fit-content; padding: 4px; font-family: 'Space Mono', monospace; }
+        .col-visual-cell { background: var(--card-bg); padding: 10px; text-align: center; font-weight: bold; color: var(--primary); min-width: 35px; font-size: 1.2em; border-radius: 4px;}
+        
+        .morse-dict { display: grid; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; margin-top: 15px; background: var(--input-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color); max-height: 140px; overflow-y: auto; font-family: 'Space Mono', monospace; }
+        .morse-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: var(--card-bg); border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.9em; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+        .morse-item span:first-child { font-weight: 700; color: var(--primary); }
+        .morse-item span:last-child { font-weight: bold; color: var(--text-main); }
+
+        /* Footer Credits */
+        .credit-footer { margin-top: auto; padding: 30px 15px 15px; text-align: center; border-top: 1px dashed var(--border-color); color: var(--text-muted); font-size: 0.95em; font-weight: 500; }
+        .credit-name { color: var(--primary); font-weight: 800; letter-spacing: 0.5px; }
+        .accuracy-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--warning-bg); color: var(--warning-text); padding: 8px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 700; margin-top: 10px; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+        #toast { visibility: hidden; min-width: 220px; background-color: var(--text-main); color: var(--card-bg); text-align: center; border-radius: 12px; padding: 14px 20px; position: fixed; z-index: 1000; left: 50%; bottom: 30px; font-size: 0.95em; font-weight: 700; font-family: 'Outfit', sans-serif; transform: translateX(-50%) translateY(20px); opacity: 0; transition: opacity 0.3s, transform 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); }
+        #toast i { font-size: 1.3em; }
+        #toast.success { background-color: var(--success); color: white;}
+        #toast.save { background-color: var(--primary); color: white;}
+
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+        @media (max-width: 768px) { 
+            header { padding-top: 80px; } /* Extra space for mobile buttons */
+            .h-content { grid-template-columns: 1fr; gap: 10px; } 
+            .cipher-card { padding: 20px; } 
+            .back-btn span { display: none; } /* Hide text on mobile, keep icon */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <a href="javascript:history.back()" class="back-btn">
+            <i class="ph-bold ph-arrow-left"></i> <span>Back</span>
+        </a>
+
+        <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeIcon">
+            <i class="ph-bold ph-moon"></i> <span>Dark Mode</span>
+        </button>
+
+        <header>
+            <h1><i class="ph-fill ph-shield-check" style="color: var(--primary);"></i> Scout Decoder Pro</h1>
+            <p class="subtitle">ইন্টারেক্টিভ স্কাউট কোড ও সাইফার লার্নিং টুল</p>
+        </header>
+
+        <div class="disclaimer-banner">
+            <i class="ph-fill ph-warning-octagon"></i>
+            <div>
+                <strong>সতর্কবার্তা:</strong> টুলটি শুধুমাত্র শেখা ও ক্যাম্পের প্রস্তুতির জন্য। ক্যাম্প বা মূল্যায়নে এর ব্যবহার সম্পূর্ণ নিষিদ্ধ। নিয়ম ভঙ্গের কোনো দায়ভার ডেভেলপার (Tanvir Tasin) বহন করবেন না।
+            </div>
+        </div>
+
+        <div class="app-nav">
+            <button class="app-nav-btn active" onclick="openCipher('view-magic', this)"><i class="ph-bold ph-magic-wand"></i> Auto-Detect</button>
+            <button class="app-nav-btn" onclick="openCipher('view-num', this)"><i class="ph-bold ph-list-numbers"></i> Number</button>
+            <button class="app-nav-btn" onclick="openCipher('view-atbash', this)"><i class="ph-bold ph-arrows-left-right"></i> Atbash</button>
+            <button class="app-nav-btn" onclick="openCipher('view-caesar', this)"><i class="ph-bold ph-target"></i> Shift Table</button>
+            <button class="app-nav-btn" onclick="openCipher('view-keyword', this)"><i class="ph-bold ph-key"></i> Keyword</button>
+            <button class="app-nav-btn" onclick="openCipher('view-column', this)"><i class="ph-bold ph-columns"></i> Column</button>
+            <button class="app-nav-btn" onclick="openCipher('view-reverse', this)"><i class="ph-bold ph-arrows-split"></i> Reverse</button>
+            <button class="app-nav-btn" onclick="openCipher('view-pigpen', this)"><i class="ph-bold ph-hash"></i> Pigpen</button>
+            <button class="app-nav-btn" onclick="openCipher('view-morse', this)"><i class="ph-bold ph-broadcast"></i> Morse</button>
+            <button class="app-nav-btn nav-history-btn" onclick="openCipher('view-history', this); renderHistory();"><i class="ph-bold ph-clock-counter-clockwise"></i> History</button>
+        </div>
+
+        <div id="view-magic" class="cipher-view active-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-magic-wand"></i></span> Magic Box (Auto-Detect)</div>
+                <div class="info-box">অজানা কোনো কোড এখানে পেস্ট করো। ম্যাজিক বক্স নিজে থেকেই স্ক্যান করে ডিকোড করার চেষ্টা করবে!</div>
+                <div class="input-group">
+                    <input type="text" id="magicInp" placeholder="Paste unknown secret message here..." oninput="detectCipher()">
+                </div>
+                <div id="magicOut" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <div id="view-num" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-list-numbers"></i></span> Number Cipher</div>
+                <div class="mapping-table" id="numMapping"></div>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab(this, 'num-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'num-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                </div>
+                <div id="num-encode" class="tab-content active">
+                    <div class="input-group"><input type="text" id="numInp" placeholder="Enter Text..." oninput="execCipher('num', 'encode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Result</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Number Cipher', 'Encode', 'numInp', 'numOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('numOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="numOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+                <div id="num-decode" class="tab-content">
+                    <div class="input-group"><input type="text" id="numDecInp" placeholder="Enter Numbers (e.g. 19 03)..." oninput="execCipher('num', 'decode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Result</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Number Cipher', 'Decode', 'numDecInp', 'numDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('numDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="numDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-atbash" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-arrows-left-right"></i></span> Atbash (Reverse)</div>
+                <div class="mapping-table" id="atbashMapping"></div>
+                <div class="input-group"><input type="text" id="atbashInp" placeholder="Type message..." oninput="execCipher('atbash')"></div>
+                <div class="result-box">
+                    <div class="result-header">
+                        <span class="result-label">Result</span>
+                        <div class="action-group">
+                            <button class="action-btn save" onclick="saveHistory('Atbash Cipher', 'Encode/Decode', 'atbashInp', 'atbashOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                            <button class="action-btn copy" onclick="copyResult('atbashOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <div id="atbashOut"><span class="empty-state">Waiting for input...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-caesar" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-target"></i></span> Scout Shift Table</div>
+                <div class="shift-control">
+                    <button class="btn btn-secondary" onclick="updateShift(-1)"><i class="ph-bold ph-caret-left"></i></button>
+                    <div class="shift-value" id="caesarShiftDisplay">A = B</div>
+                    <button class="btn btn-secondary" onclick="updateShift(1)"><i class="ph-bold ph-caret-right"></i></button>
+                </div>
+                <div class="mapping-table" id="caesarMapping"></div>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab(this, 'caesar-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'caesar-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                </div>
+                <div id="caesar-encode" class="tab-content active">
+                    <div class="input-group"><input type="text" id="caesarInp" placeholder="Original text..." oninput="execCipher('caesar', 'encode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Encoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Shift Table', 'Encode', 'caesarInp', 'caesarOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('caesarOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="caesarOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+                <div id="caesar-decode" class="tab-content">
+                    <div class="input-group"><input type="text" id="caesarDecInp" placeholder="Ciphered text..." oninput="execCipher('caesar', 'decode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Decoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Shift Table', 'Decode', 'caesarDecInp', 'caesarDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('caesarDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="caesarDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-keyword" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-key"></i></span> Keyword Cipher</div>
+                <div class="input-group">
+                    <label>Secret Keyword</label>
+                    <input type="text" id="keyInp" placeholder="e.g. SCOUT" oninput="execCipher('keyword', 'encode'); execCipher('keyword', 'decode');" value="SCOUT">
+                </div>
+                <div class="mapping-table" id="keyMapping"></div>
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab(this, 'key-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'key-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                </div>
+                <div id="key-encode" class="tab-content active">
+                    <div class="input-group"><input type="text" id="keyMsgInp" placeholder="Type message..." oninput="execCipher('keyword', 'encode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Encoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Keyword Cipher', 'Encode', 'keyMsgInp', 'keyOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('keyOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="keyOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+                <div id="key-decode" class="tab-content">
+                    <div class="input-group"><input type="text" id="keyMsgDecInp" placeholder="Type cipher..." oninput="execCipher('keyword', 'decode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Decoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Keyword Cipher', 'Decode', 'keyMsgDecInp', 'keyDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('keyDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="keyDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-column" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-columns"></i></span> Column Method</div>
+                <div class="shift-control">
+                    <button class="btn btn-secondary" onclick="updateColumn(-1)"><i class="ph-bold ph-minus"></i></button>
+                    <div class="shift-value" id="colNumDisplay">4</div>
+                    <button class="btn btn-secondary" onclick="updateColumn(1)"><i class="ph-bold ph-plus"></i></button>
+                </div>
+                <div class="input-group"><input type="text" id="colInp" placeholder="Enter message..." oninput="execCipher('column')"></div>
+                <div id="colVisualGrid"></div>
+                <div class="result-box">
+                    <div class="result-header">
+                        <span class="result-label">Result</span>
+                        <div class="action-group">
+                            <button class="action-btn save" onclick="saveHistory('Column Method', 'Encode', 'colInp', 'colOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                            <button class="action-btn copy" onclick="copyResult('colOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <div id="colOut"><span class="empty-state">Waiting for input...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-reverse" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-arrows-split"></i></span> Word Reverse</div>
+                <div class="input-group"><input type="text" id="revInp" placeholder="Type here..." oninput="execCipher('wordrev')"></div>
+                <div class="result-box">
+                    <div class="result-header">
+                        <span class="result-label">Reversed</span>
+                        <div class="action-group">
+                            <button class="action-btn save" onclick="saveHistory('Word Reverse', 'Encode', 'revInp', 'revOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                            <button class="action-btn copy" onclick="copyResult('revOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <div id="revOut"><span class="empty-state">Waiting for input...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-pigpen" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-hash"></i></span> Pigpen Mapping</div>
+                
+                <div class="pigpen-key-container">
+                    <table class="pg-grid"><tr><td>A</td><td class="b-lr">B</td><td>C</td></tr><tr><td class="b-tb">D</td><td class="b-all">E</td><td class="b-tb">F</td></tr><tr><td>G</td><td class="b-lr">H</td><td>I</td></tr></table>
+                    <table class="pg-grid"><tr><td>J<sup>•</sup></td><td class="b-lr">K<sup>•</sup></td><td>L<sup>•</sup></td></tr><tr><td class="b-tb">M<sup>•</sup></td><td class="b-all">N<sup>•</sup></td><td class="b-tb">O<sup>•</sup></td></tr><tr><td>P<sup>•</sup></td><td class="b-lr">Q<sup>•</sup></td><td>R<sup>•</sup></td></tr></table>
+                    <div class="pg-x-wrapper"><div class="pg-x-bg"></div><div class="pg-x-char pg-x-t">S</div><div class="pg-x-char pg-x-r">T</div><div class="pg-x-char pg-x-b">U</div><div class="pg-x-char pg-x-l">V</div></div>
+                    <div class="pg-x-wrapper"><div class="pg-x-bg"></div><div class="pg-x-char pg-x-t">W<sup>•</sup></div><div class="pg-x-char pg-x-r">X<sup>•</sup></div><div class="pg-x-char pg-x-b">Y<sup>•</sup></div><div class="pg-x-char pg-x-l">Z<sup>•</sup></div></div>
+                </div>
+
+                <div class="input-group"><input type="text" id="pigpenInp" placeholder="Enter text..." oninput="execCipher('pigpen')"></div>
+                <div class="result-box" style="font-size: 2em; text-align: center;">
+                    <div class="result-header" style="font-size: 0.4em; font-family: 'Outfit', sans-serif;">
+                        <span class="result-label">Symbols</span>
+                        <div class="action-group">
+                            <button class="action-btn save" onclick="saveHistory('Pigpen Cipher', 'Encode', 'pigpenInp', 'pigpenOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                            <button class="action-btn copy" onclick="copyResult('pigpenOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                    <div id="pigpenOut"><span class="empty-state" style="font-size: 0.45em;">Waiting for input...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-morse" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-broadcast"></i></span> Morse Code</div>
+                <div class="morse-dict" id="morseDictionary"></div>
+                <div class="tab-buttons" style="margin-top: 15px;">
+                    <button class="tab-btn active" onclick="switchTab(this, 'morse-encode')"><i class="ph-bold ph-text-t"></i> Text to Morse</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'morse-decode')"><i class="ph-bold ph-radio-wave"></i> Morse to Text</button>
+                </div>
+                <div id="morse-encode" class="tab-content active">
+                    <div class="input-group"><input type="text" id="morseInp" placeholder="Enter text..." oninput="execCipher('morse', 'encode')"></div>
+                    <div class="result-box" style="margin-bottom: 12px;">
+                        <div class="result-header">
+                            <span class="result-label">Morse</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Morse Code', 'Encode', 'morseInp', 'morseOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('morseOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="morseOut" style="font-size: 1.4em; font-weight: 800;"><span class="empty-state" style="font-size: 0.6em;">Waiting for input...</span></div>
+                    </div>
+                    <button class="btn" onclick="playMorse()" style="width: 100%;"><i class="ph-bold ph-speaker-high"></i> Play Audio Sound</button>
+                </div>
+                <div id="morse-decode" class="tab-content">
+                    <div class="input-group"><input type="text" id="morseDecInp" placeholder="Use dots(.) and dashes(-)..." oninput="execCipher('morse', 'decode')"></div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Text</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Morse Code', 'Decode', 'morseDecInp', 'morseDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('morseDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="morseDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-history" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title" style="justify-content: space-between; flex-wrap: wrap;">
+                    <span style="display:flex; align-items:center; gap:10px;"><span class="cipher-icon"><i class="ph-bold ph-clock-counter-clockwise"></i></span> Saved History</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-secondary" style="font-size: 0.85em; padding: 8px 14px; border-radius: 10px;" onclick="downloadHistory()"><i class="ph-bold ph-download-simple"></i> Download .txt</button>
+                        <button class="btn btn-danger" style="border-radius: 10px;" onclick="clearAllHistory()"><i class="ph-bold ph-trash"></i> Clear All</button>
+                    </div>
+                </div>
+                
+                <div class="history-list" id="historyContainer">
+                    </div>
+            </div>
+        </div>
+
+        <div class="credit-footer">
+            <p>Developed for learning spirit by <span class="credit-name">Tanvir Tasin</span></p>
+            <div class="accuracy-badge"><i class="ph-bold ph-warning-circle"></i> ~70% Accurate Scout Standard</div>
+        </div>
+
+    </div>
+
+    <div id="toast"><i class="ph-bold ph-check-circle"></i> Action Successful!</div>
+
+    <script>
+        // --- 1. Theme Management ---
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('themeIcon');
+            if(body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('scoutTheme', 'light');
+                themeBtn.innerHTML = '<i class="ph-bold ph-moon"></i> <span>Dark Mode</span>';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('scoutTheme', 'dark');
+                themeBtn.innerHTML = '<i class="ph-bold ph-sun"></i> <span>Light Mode</span>';
+            }
+        }
+        
+        if(localStorage.getItem('scoutTheme') === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('themeIcon').innerHTML = '<i class="ph-bold ph-sun"></i> <span>Light Mode</span>';
+        }
+
+        // --- 2. Offline Mode (PWA) Initialization ---
+        function setupPWA() {
+            const manifest = {
+                "name": "Scout Decoder Pro", "short_name": "Decoder", "display": "standalone",
+                "background_color": "#0f172a", "theme_color": "#0ea5e9",
+                "icons": [{"src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzBlYTVlOSIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiIGR5PSIuM2VtIj7wn5SQPC90ZXh0Pjwvc3ZnPg==", "sizes": "192x192", "type": "image/svg+xml"}]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(manifestBlob);
+            document.head.appendChild(link);
+
+            if ('serviceWorker' in navigator) {
+                const swCode = `self.addEventListener('install', e => e.waitUntil(caches.open('scout-v1').then(c => c.addAll([location.pathname])))); self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));`;
+                const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(console.error);
+            }
+        }
+
+        const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let cShift = 1; let colCount = 4; 
+        const emptyStateHTML = '<span class="empty-state">Waiting for input...</span>';
+        
+        const MORSE_MAP = {'A':'.-', 'B':'-...', 'C':'-.-.', 'D':'-..', 'E':'.', 'F':'..-.', 'G':'--.', 'H':'....', 'I':'..', 'J':'.---', 'K':'-.-', 'L':'.-..', 'M':'--', 'N':'-.', 'O':'---', 'P':'.--.', 'Q':'--.-', 'R':'.-.', 'S':'...', 'T':'-', 'U':'..-', 'V':'...-', 'W':'.--', 'X':'-..-', 'Y':'-.--', 'Z':'--..', '1':'.----', '2':'..---', '3':'...--', '4':'....-', '5':'.....', '6':'-....', '7':'--...', '8':'---..', '9':'----.', '0':'-----', ' ':'/'};
+        const REVERSE_MORSE = Object.fromEntries(Object.entries(MORSE_MAP).map(([k, v]) => [v, k]));
+        const REV_PIGPEN = {'⨼':'A','⨆':'B','⨽':'C','⨢':'D','⨅':'E','⨣':'F','⨱':'G','⨄':'H','⨲':'I','⨼•':'J','⨆•':'K','⨽•':'L','⨢•':'M','⨅•':'N','⨣•':'O','⨱•':'P','⨄•':'Q','⨲•':'R','∨':'S','>':'T','<':'U','∧':'V','∨•':'W','>•':'X','<•':'Y','∧•':'Z'};
+
+        window.onload = function() {
+            setupPWA();
+            let alphArr = ALPHABET.split('');
+            renderGenericMapping('numMapping', alphArr, Array.from({length: 26}, (_, i) => String(i+1).padStart(2,'0')), "TEXT", "NUMBER");
+            renderGenericMapping('atbashMapping', alphArr, ALPHABET.split('').reverse(), "TEXT", "CIPHER");
+            updateShift(0); execCipher('keyword', 'encode');
+            document.getElementById('morseDictionary').innerHTML = Object.entries(MORSE_MAP).map(([k,v]) => `<div class="morse-item"><span>${k}</span><span>${v}</span></div>`).join('');
+        };
+
+        // --- 3. Magic Box Auto-Detect ---
+        function detectCipher() {
+            let txt = document.getElementById('magicInp').value.trim().toUpperCase();
+            let out = document.getElementById('magicOut');
+            if(!txt) { out.innerHTML = ''; return; }
+
+            let html = '<div style="font-weight:bold; margin-bottom:10px; color: var(--primary); font-family: \'Outfit\', sans-serif;"><i class="ph-bold ph-sparkle"></i> Detection Results:</div>';
+            
+            if(/^[.\- /]+$/.test(txt)) {
+                html += `<div class="info-box" style="border-left-color: var(--success)"><b>📡 Morse Code Detected!</b><br><br><span style="color:var(--primary); font-family:'Space Mono', monospace; font-size:1.2em">${txt.split(/\s+/).map(m => REVERSE_MORSE[m] || '?').join('')}</span></div>`;
+            } else if(/^[\d\s]+$/.test(txt)) {
+                html += `<div class="info-box" style="border-left-color: var(--success)"><b>🔢 Number Cipher Detected!</b><br><br><span style="color:var(--primary); font-family:'Space Mono', monospace; font-size:1.2em">${txt.split(/[\s-]+/).map(n => { let num=parseInt(n); return (num>=1&&num<=26)?ALPHABET[num-1]:n; }).join('')}</span></div>`;
+            } else if(/[⨼⨆⨽⨢⨅⨣⨱⨄⨲∨><∧•]/.test(txt)) {
+                let pRes = txt; Object.keys(REV_PIGPEN).sort((a,b)=>b.length-a.length).forEach(k => pRes = pRes.split(k).join(REV_PIGPEN[k]));
+                html += `<div class="info-box" style="border-left-color: var(--success)"><b>🐷 Pigpen Cipher Detected!</b><br><br><span style="color:var(--primary); font-family:'Space Mono', monospace; font-size:1.2em">${pRes.replace(/\s+/g,'')}</span></div>`;
+            } else if(/^[A-Z\s]+$/.test(txt)) {
+                html += `<div class="info-box" style="margin-bottom:8px"><b>🔤 Alphabetic Text Detected. Possible Decodes:</b></div>`;
+                html += `<div class="h-box" style="margin-bottom:8px; font-family: 'Space Mono', monospace;"><b>Atbash:</b> <span style="color:var(--primary)">${txt.split('').map(c => ALPHABET.includes(c) ? ALPHABET[25-ALPHABET.indexOf(c)] : c).join('')}</span></div>`;
+                html += `<div class="h-box" style="margin-bottom:8px; font-family: 'Space Mono', monospace;"><b>Reverse:</b> <span style="color:var(--primary)">${txt.split(' ').map(w => w.split('').reverse().join('')).join(' ')}</span></div>`;
+                html += `<div style="max-height: 150px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; background: var(--input-bg); font-family: 'Space Mono', monospace;">`;
+                for(let i=1; i<26; i++) html += `<div style="font-size:0.95em; padding: 6px; border-bottom:1px dashed var(--border-color)"><b>Caesar (Shift ${i}):</b> ${txt.split('').map(c => ALPHABET.includes(c) ? ALPHABET[(ALPHABET.indexOf(c) + i) % 26] : c).join('')}</div>`;
+                html += `</div>`;
+            } else {
+                html += `<div class="info-box" style="border-left-color: var(--danger); background: var(--warning-bg); color: var(--warning-text);"><i class="ph-bold ph-warning"></i> Unknown Format. Please check the text.</div>`;
+            }
+            out.innerHTML = html;
+        }
+
+        // App Navigation
+        function openCipher(viewId, btnElement) {
+            document.querySelectorAll('.cipher-view').forEach(v => v.classList.remove('active-view'));
+            document.querySelectorAll('.app-nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active-view');
+            btnElement.classList.add('active');
+        }
+
+        // --- 4. Download History ---
+        function downloadHistory() {
+            let history = JSON.parse(localStorage.getItem('scoutCipherHistory')) || [];
+            if(history.length === 0) { showToast("<i class='ph-bold ph-warning'></i> No history to download!", "danger"); return; }
+            
+            let text = "=== Scout Cipher Decoder Pro - Log Book ===\n\n";
+            history.forEach(item => {
+                text += `[${item.time}] ${item.cipher} (${item.mode})\n`;
+                text += `Input:  ${item.input}\nResult: ${item.output}\n`;
+                text += `-------------------------------------------\n`;
+            });
+
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+            a.download = `Scout_LogBook_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            showToast("<i class='ph-bold ph-download-simple'></i> LogBook Downloaded!", "success");
+        }
+
+        // History Management
+        function saveHistory(cipherName, mode, inputId, outputId) {
+            let input = document.getElementById(inputId).value;
+            let output = document.getElementById(outputId).innerText;
+            if(!input || output.includes("Waiting")) { showToast("<i class='ph-bold ph-warning'></i> Nothing to save!", "danger"); return; }
+            let history = JSON.parse(localStorage.getItem('scoutCipherHistory')) || [];
+            history.unshift({ cipher: cipherName, mode: mode, input: input, output: output, time: new Date().toLocaleString() }); 
+            localStorage.setItem('scoutCipherHistory', JSON.stringify(history));
+            showToast("<i class='ph-bold ph-floppy-disk'></i> Saved to History!", "save");
+        }
+
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('scoutCipherHistory')) || [];
+            let container = document.getElementById('historyContainer');
+            if(history.length === 0) { container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted); font-size: 0.95em; font-family: 'Outfit', sans-serif;"><i class="ph-bold ph-folder-open" style="font-size: 2.5em; display: block; margin-bottom: 10px; opacity: 0.5;"></i>No saved history found.</div>`; return; }
+            container.innerHTML = history.map((item, index) => `
+                <div class="history-item">
+                    <button class="del-btn" onclick="deleteHistoryItem(${index})" title="Delete"><i class="ph-bold ph-trash"></i></button>
+                    <div class="h-header"><span class="h-badge"><i class="ph-bold ph-tag"></i> ${item.cipher} • ${item.mode}</span><span class="h-date">${item.time}</span></div>
+                    <div class="h-content">
+                        <div><span class="h-label">Original Input</span><div class="h-box">${item.input}</div></div>
+                        <div><span class="h-label">Cipher Result</span><div class="h-box">${item.output}</div></div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function deleteHistoryItem(index) {
+            if(confirm("Are you sure you want to delete this item?")) {
+                let history = JSON.parse(localStorage.getItem('scoutCipherHistory')) || [];
+                history.splice(index, 1); localStorage.setItem('scoutCipherHistory', JSON.stringify(history));
+                renderHistory(); showToast("<i class='ph-bold ph-trash'></i> Item Deleted!", "danger");
+            }
+        }
+        function clearAllHistory() {
+            if(confirm("Are you sure you want to clear ALL history? This cannot be undone.")) {
+                localStorage.removeItem('scoutCipherHistory'); renderHistory(); showToast("<i class='ph-bold ph-trash'></i> History Cleared!", "danger");
+            }
+        }
+
+        function renderGenericMapping(containerId, textArr, cipherArr, label1="TEXT", label2="CIPHER") {
+            document.getElementById(containerId).innerHTML = `<div class="map-row cipher-row"><div class="map-label">${label2}</div>${cipherArr.map(c => `<div class="map-char">${c}</div>`).join('')}</div><div class="map-row text-row"><div class="map-label">${label1}</div>${textArr.map(c => `<div class="map-char">${c}</div>`).join('')}</div>`;
+        }
+
+        function switchTab(btn, tabId) {
+            let parent = btn.closest('.cipher-card');
+            parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active'); document.getElementById(tabId).classList.add('active');
+        }
+
+        function showToast(message, type="success") {
+            const toast = document.getElementById("toast");
+            toast.innerHTML = message; toast.className = `show ${type}`;
+            setTimeout(() => toast.className = toast.className.replace(/show|success|save|danger/g, "").trim(), 3000);
+        }
+
+        function copyResult(id) {
+            const el = document.getElementById(id);
+            if(el.innerText && !el.innerText.includes("Waiting")) {
+                navigator.clipboard.writeText(el.innerText); showToast("<i class='ph-bold ph-check-circle'></i> Copied to clipboard!", "success");
+            }
+        }
+
+        function updateShift(val) {
+            cShift = (cShift + val + 26) % 26;
+            document.getElementById('caesarShiftDisplay').innerText = `A = ${ALPHABET[cShift]}`;
+            renderGenericMapping('caesarMapping', ALPHABET.split(''), ALPHABET.slice(cShift).split('').concat(ALPHABET.slice(0, cShift).split('')), "TEXT", "CIPHER");
+            execCipher('caesar', 'encode'); execCipher('caesar', 'decode');
+        }
+
+        function updateColumn(val) {
+            let newVal = colCount + val;
+            if(newVal >= 2 && newVal <= 15) { colCount = newVal; document.getElementById('colNumDisplay').innerText = colCount; execCipher('column'); }
+        }
+
+        function execCipher(type, mode = 'encode') {
+            try {
+                if(type === 'num') {
+                    if(mode === 'encode') {
+                        let text = document.getElementById('numInp').value.toUpperCase();
+                        if(!text) { document.getElementById('numOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('numOut').innerText = text.split('').map(c => ALPHABET.includes(c) ? String(ALPHABET.indexOf(c)+1).padStart(2,'0') : c).join(' ').replace(/\s+/g, ' ').trim() || '-';
+                    } else {
+                        let text = document.getElementById('numDecInp').value;
+                        if(!text) { document.getElementById('numDecOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('numDecOut').innerText = text.split(/[\s-]+/).map(n => { let num = parseInt(n); return (num >= 1 && num <= 26) ? ALPHABET[num-1] : n; }).join('') || '-';
+                    }
+                }
+                if(type === 'atbash') {
+                    let text = document.getElementById('atbashInp').value.toUpperCase();
+                    if(!text) { document.getElementById('atbashOut').innerHTML = emptyStateHTML; return; }
+                    document.getElementById('atbashOut').innerText = text.split('').map(c => ALPHABET.includes(c) ? ALPHABET[25 - ALPHABET.indexOf(c)] : c).join('') || '-';
+                }
+                if(type === 'caesar') {
+                    let inpId = mode === 'encode' ? 'caesarInp' : 'caesarDecInp';
+                    let outId = mode === 'encode' ? 'caesarOut' : 'caesarDecOut';
+                    let text = document.getElementById(inpId).value.toUpperCase();
+                    if(!text) { document.getElementById(outId).innerHTML = emptyStateHTML; return; }
+                    let shiftVal = mode === 'encode' ? cShift : (26 - cShift);
+                    document.getElementById(outId).innerText = text.split('').map(c => ALPHABET.includes(c) ? ALPHABET[(ALPHABET.indexOf(c) + shiftVal) % 26] : c).join('') || '-';
+                }
+                if(type === 'keyword') {
+                    let key = [...new Set(document.getElementById('keyInp').value.toUpperCase().replace(/[^A-Z]/g, ''))].join('');
+                    let cipherAlph = key + ALPHABET.split('').filter(c => !key.includes(c)).join('');
+                    renderGenericMapping('keyMapping', ALPHABET.split(''), cipherAlph.split(''), "TEXT", "CIPHER");
+
+                    if(mode === 'encode') {
+                        let text = document.getElementById('keyMsgInp').value.toUpperCase();
+                        if(!text) { document.getElementById('keyOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('keyOut').innerText = text.split('').map(c => ALPHABET.includes(c) ? cipherAlph[ALPHABET.indexOf(c)] : c).join('') || '-';
+                    } else {
+                        let text = document.getElementById('keyMsgDecInp').value.toUpperCase();
+                        if(!text) { document.getElementById('keyDecOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('keyDecOut').innerText = text.split('').map(c => cipherAlph.includes(c) ? ALPHABET[cipherAlph.indexOf(c)] : c).join('') || '-';
+                    }
+                }
+                if(type === 'column') {
+                    let text = document.getElementById('colInp').value.toUpperCase().replace(/[^A-Z]/g, '');
+                    let cols = colCount;
+                    if(!text) { document.getElementById('colOut').innerHTML = emptyStateHTML; document.getElementById('colVisualGrid').innerHTML = ''; return; }
+                    while(text.length % cols !== 0) text += 'X';
+                    let grid = []; for(let i=0; i<text.length; i+=cols) grid.push(text.slice(i, i+cols).split(''));
+                    let res = ''; for(let c=0; c<cols; c++) { for(let r=0; r<grid.length; r++) res += grid[r][c]; res += ' '; }
+                    document.getElementById('colOut').innerText = res.trim();
+                    let gridHtml = `<div class="col-grid-container" style="grid-template-columns: repeat(${cols}, 1fr)">`;
+                    for(let r=0; r<grid.length; r++) { for(let c=0; c<cols; c++) { gridHtml += `<div class="col-visual-cell">${grid[r][c]}</div>`; } }
+                    document.getElementById('colVisualGrid').innerHTML = gridHtml + `</div>`;
+                }
+                if(type === 'wordrev') {
+                    let text = document.getElementById('revInp').value;
+                    if(!text) { document.getElementById('revOut').innerHTML = emptyStateHTML; return; }
+                    document.getElementById('revOut').innerText = text.split(' ').map(w => w.split('').reverse().join('')).join(' ') || '-';
+                }
+                if(type === 'pigpen') {
+                    let text = document.getElementById('pigpenInp').value.toUpperCase();
+                    if(!text) { document.getElementById('pigpenOut').innerHTML = emptyStateHTML; return; }
+                    const pMap = {'A':'⨼','B':'⨆','C':'⨽','D':'⨢','E':'⨅','F':'⨣','G':'⨱','H':'⨄','I':'⨲','J':'⨼•','K':'⨆•','L':'⨽•','M':'⨢•','N':'⨅•','O':'⨣•','P':'⨱•','Q':'⨄•','R':'⨲•','S':'∨','T':'>','U':'<','V':'∧','W':'∨•','X':'>•','Y':'<•','Z':'∧•'};
+                    document.getElementById('pigpenOut').innerText = text.split('').map(c => pMap[c] ? pMap[c] + ' ' : c).join('') || '-';
+                }
+                if(type === 'morse') {
+                    if(mode === 'encode') {
+                        let text = document.getElementById('morseInp').value.toUpperCase();
+                        if(!text) { document.getElementById('morseOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('morseOut').innerText = text.split('').map(c => MORSE_MAP[c] ? MORSE_MAP[c] + ' ' : (c===' '?'/ ':'')).join('').trim() || '-';
+                    } else {
+                        let text = document.getElementById('morseDecInp').value.trim();
+                        if(!text) { document.getElementById('morseDecOut').innerHTML = emptyStateHTML; return; }
+                        document.getElementById('morseDecOut').innerText = text.split(/\s+/).map(m => REVERSE_MORSE[m] || (m==='/'?' ':'?')).join('') || '-';
+                    }
+                }
+            } catch (err) { console.error("Cipher Error:", err); }
+        }
+
+        function playMorse() {
+            const el = document.getElementById('morseOut');
+            if(!el.innerText || el.innerText.includes("Waiting")) return;
+            const morse = el.innerText;
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator(); const gain = ctx.createGain();
+            osc.type = 'sine'; osc.frequency.value = 600;
+            osc.connect(gain); gain.connect(ctx.destination);
+            const dotTime = 0.08; let time = ctx.currentTime + 0.1;
+            gain.gain.setValueAtTime(0, time);
+            for(let char of morse) {
+                if(char === '.') { gain.gain.setValueAtTime(1, time); time += dotTime; gain.gain.setValueAtTime(0, time); time += dotTime; } 
+                else if(char === '-') { gain.gain.setValueAtTime(1, time); time += dotTime * 3; gain.gain.setValueAtTime(0, time); time += dotTime; } 
+                else if(char === ' ' || char === '/') { time += dotTime * 3; }
+            }
+            osc.start(); osc.stop(time);
+        }
+    </script>
+</body>
+</html>
