@@ -334,14 +334,14 @@
         let currentBeta = 0, targetBeta = 0, currentGamma = 0, targetGamma = 0;
         
         let isTracking = false, trackDist = 0, lastPos = null;
-        let steps = 0, lastAccel = 0;
+        let steps = 0, lastAccel = 0, lastStepTime = 0; // Added lastStepTime here
         let pathCoords = [];
         
         let audioCtx, whistleOsc, isWhistling = false, isMorsing = false;
         let currentStream = null, deferredPrompt;
         
         let trackMap = null, pathLayer = null, startMarker = null, endMarker = null;
-        let hasFetchedAPIs = false; // Flag to prevent multiple API calls
+        let hasFetchedAPIs = false; 
 
         const quotes = [
             "\"পৃথিবীকে যেমন পেয়েছ, তার চেয়ে একটু ভালো রেখে যাওয়ার চেষ্টা করো।\" - ব্যাডেন পাওয়েল",
@@ -503,9 +503,17 @@
         function handleMotion(event) {
             if(!isTracking) return;
             let acc = event.accelerationIncludingGravity; if(!acc) return;
+            
             let magnitude = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
-            let delta = magnitude - lastAccel;
-            if(delta > 1.2 && magnitude > 10.5) { steps++; document.getElementById('stepCountVal').innerHTML = `${steps} <span style="font-size:10px">steps</span>`; }
+            let delta = Math.abs(magnitude - lastAccel); // Delta absolute value
+            let currentTime = Date.now();
+
+            // Updated step counter logic
+            if(delta > 1.5 && magnitude > 11.5 && (currentTime - lastStepTime > 300)) { 
+                steps++; 
+                document.getElementById('stepCountVal').innerHTML = `${steps} <span style="font-size:10px">steps</span>`; 
+                lastStepTime = currentTime;
+            }
             lastAccel = magnitude;
         }
 
@@ -522,12 +530,10 @@
             return 12742 * Math.asin(Math.sqrt(a)); 
         }
 
-        // NEW: Fetch APIs exactly once to save data
         function fetchAPIs(lat, lon) {
             if(hasFetchedAPIs) return;
             hasFetchedAPIs = true;
 
-            // Fetch Sun Times
             fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`)
                 .then(res => res.json())
                 .then(data => {
@@ -539,7 +545,6 @@
                     }
                 }).catch(e => console.log("Sun API Error"));
 
-            // Fetch Weather
             fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m`)
                 .then(res => res.json())
                 .then(data => {
@@ -550,6 +555,8 @@
 
         function handlePosition(position) {
             const lat = position.coords.latitude, lon = position.coords.longitude;
+            const accuracy = position.coords.accuracy || 0;
+
             document.getElementById('coordsValue').textContent = `${lat.toFixed(5)}°, ${lon.toFixed(5)}°`;
             if (position.coords.altitude) document.getElementById('altitudeValue').textContent = `${Math.round(position.coords.altitude)} m`;
             if (position.coords.speed !== null && !isNaN(position.coords.speed)) document.getElementById('speedValue').textContent = `${(position.coords.speed * 3.6).toFixed(1)} km/h`;
@@ -561,18 +568,29 @@
             const declination = Math.round((lon / 10) + (lat / 20));
             document.getElementById('declinationInfo').textContent = `Magnetic declination: ~${declination}° (True North adjustment)`;
 
-            // Fetch APIs only the first time we get a valid location
             fetchAPIs(lat, lon);
 
+            // Updated Tracker Logic with accuracy filter
             if(isTracking) {
-                if(lastPos) {
-                    trackDist += getDistance(lastPos.lat, lastPos.lon, lat, lon);
-                    document.getElementById('trackVal').innerHTML = `${trackDist.toFixed(2)} <span style="font-size:10px">km</span>`;
+                if (accuracy < 25) { 
+                    if(lastPos) {
+                        let movedDist = getDistance(lastPos.lat, lastPos.lon, lat, lon);
+                        if (movedDist > 0.005) { 
+                            trackDist += movedDist;
+                            document.getElementById('trackVal').innerHTML = `${trackDist.toFixed(2)} <span style="font-size:10px">km</span>`;
+                            pathCoords.push({lat, lon});
+                            lastPos = {lat, lon}; 
+                            document.getElementById('pathStatus').textContent = `Recording... (${pathCoords.length} points saved)`;
+                        }
+                    } else {
+                        pathCoords.push({lat, lon});
+                        lastPos = {lat, lon};
+                        document.getElementById('pathStatus').textContent = `Recording... (${pathCoords.length} points saved)`;
+                    }
                 }
-                pathCoords.push({lat, lon});
-                document.getElementById('pathStatus').textContent = `Recording... (${pathCoords.length} points saved)`;
+            } else {
+                lastPos = {lat, lon}; 
             }
-            lastPos = {lat, lon}; 
         }
 
         function sendSOS_SMS() {
@@ -603,6 +621,7 @@
             if (isTracking) {
                 btn.innerHTML = 'Stop'; btn.classList.add('danger'); 
                 steps = 0; trackDist = 0; pathCoords = []; 
+                lastPos = null; // Reset last position on new track
                 
                 document.getElementById('stepCountVal').innerHTML = `0 <span style="font-size:10px">steps</span>`;
                 document.getElementById('trackVal').innerHTML = `0.00 <span style="font-size:10px">km</span>`;
