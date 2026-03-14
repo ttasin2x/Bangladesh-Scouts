@@ -95,7 +95,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            /* Outfit for English, Hind for Bengali as fallback */
             font-family: 'Outfit', 'Hind', system-ui, sans-serif;
             background-color: var(--bg-base);
             min-height: 100vh;
@@ -150,13 +149,13 @@
         }
         .disclaimer-banner i { color: var(--danger); font-size: 1.6em; margin-top: 2px;}
 
-        /* Modern App Navigation - Buttons Made Smaller */
-        .app-nav { display: flex; gap: 10px; overflow-x: auto; padding: 5px; margin-bottom: 30px; scrollbar-width: none; }
+        /* Modern App Navigation */
+        .app-nav { display: flex; gap: 12px; overflow-x: auto; padding: 5px; margin-bottom: 30px; scrollbar-width: none; }
         .app-nav::-webkit-scrollbar { display: none; }
         .app-nav-btn {
-            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.9em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); font-family: 'Outfit', 'Hind', sans-serif; backdrop-filter: blur(8px);
+            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.95em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); font-family: 'Outfit', 'Hind', sans-serif; backdrop-filter: blur(8px);
         }
-        .app-nav-btn i { font-size: 1.15em; color: var(--text-muted); transition: 0.3s; }
+        .app-nav-btn i { font-size: 1.2em; color: var(--text-muted); transition: 0.3s; }
         .app-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
         .app-nav-btn:hover i { color: var(--primary); }
         .app-nav-btn.active { background: var(--primary-gradient); color: white; border: none; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); transform: translateY(-2px); }
@@ -218,17 +217,13 @@
         
         .empty-state { color: var(--text-muted); font-weight: normal; font-size: 0.9em; font-style: italic; opacity: 0.7; font-family: 'Outfit', 'Hind', sans-serif;}
         
-        /* Tabs inside cards - FIXED LOGIC */
+        /* Tabs inside cards */
         .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 16px; box-shadow: var(--inner-shadow); }
         .tab-btn { flex: 1; padding: 12px; background: transparent; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1em; font-family: 'Outfit', 'Hind', sans-serif; }
         .tab-btn:hover { color: var(--text-main); }
         .tab-btn.active { background: var(--card-bg); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         
-        /* HIDDEN TABS CSS */
-        .tab-content { display: none; animation: fadeIn 0.4s ease; }
-        .tab-content.active { display: block; }
-        
-        /* MOBILE SHIFT BUTTONS */
+        /* BUG FIX FOR MOBILE SHIFT BUTTONS */
         .shift-control { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: var(--input-bg); padding: 10px; border-radius: 16px; border: 1px solid var(--border-color); }
         .shift-value { font-size: 1.5em; font-weight: 700; color: var(--primary); min-width: 80px; text-align: center; font-family: 'Space Mono', monospace; }
         .shift-control .btn { padding: 0; width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; }
@@ -305,9 +300,9 @@
             .float-btn span { display: none; } 
             .float-btn { padding: 12px; width: 48px; height: 48px; border-radius: 50%; }
             
-            /* NAV BUTTONS SMALLER FOR MOBILE */
-            .app-nav-btn { padding: 8px 14px; font-size: 0.85em; gap: 5px; }
-            .app-nav-btn i { font-size: 1.1em; }
+            /* PERFECT BALANCED NAV BUTTONS FOR MOBILE */
+            .app-nav-btn { padding: 10px 18px; font-size: 0.9em; gap: 6px; }
+            .app-nav-btn i { font-size: 1.15em; }
         }
         
         /* Modals/Popups */
@@ -855,7 +850,7 @@
             showToast("<i class='ph-bold ph-shield-check'></i> Welcome to Scout Decoder!", "success");
         }
 
-        // --- Info/Guide Modal Logic ---
+        // --- Info/Guide Modal Logic (DETAILED FOR SCOUTS) ---
         const CIPHER_INFO = {
             'magic': { 
                 title: 'Magic Box', 
