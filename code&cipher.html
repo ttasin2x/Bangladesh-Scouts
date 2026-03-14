@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        /* --- Premium UI Variables --- */
+        /* --- Premium UI Variables (Clean & Modern) --- */
         :root {
             --primary: #6366f1; 
             --primary-hover: #4f46e5;
@@ -20,7 +20,7 @@
             --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
             
             --bg-base: #f8fafc; 
-            --card-bg: #ffffff; 
+            --card-bg: rgba(255, 255, 255, 0.85); 
             --text-main: #1e293b; 
             --text-muted: #64748b; 
             
@@ -36,8 +36,10 @@
             --result-text: #a5b4fc; 
             
             --nav-btn-bg: #ffffff;
-            --card-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15); 
-            
+            --nav-btn-border: #e2e8f0;
+            --card-shadow: 0 20px 40px -15px rgba(99, 102, 241, 0.15);
+            --inner-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+
             /* Bubble Colors */
             --bubble-1: rgba(99, 102, 241, 0.4);
             --bubble-2: rgba(168, 85, 247, 0.4);
@@ -46,7 +48,7 @@
 
         [data-theme="dark"] {
             --bg-base: #0f172a; 
-            --card-bg: #1e293b; 
+            --card-bg: rgba(30, 41, 59, 0.85); 
             --text-main: #f8fafc; 
             --text-muted: #94a3b8; 
             
@@ -61,8 +63,11 @@
             --result-text: #c7d2fe; 
             
             --nav-btn-bg: #1e293b;
+            --nav-btn-border: #334155;
             --card-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
-            
+            --inner-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+
+            /* Dark Mode Bubble Colors */
             --bubble-1: rgba(99, 102, 241, 0.15);
             --bubble-2: rgba(168, 85, 247, 0.15);
             --bubble-3: rgba(56, 189, 248, 0.15);
@@ -110,16 +115,17 @@
         
         /* Premium Floating Buttons */
         .float-btn {
-            position: absolute; top: 20px; background: var(--card-bg); border: none; color: var(--text-main); padding: 12px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px; z-index: 10; font-family: 'Outfit', sans-serif; text-decoration: none;
+            background: var(--card-bg); border: none; color: var(--text-main); padding: 12px 20px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 10px; font-family: 'Outfit', sans-serif; text-decoration: none; backdrop-filter: blur(10px); justify-content: center;
         }
-        .back-btn { left: 20px; }
-        .theme-toggle-btn { right: 20px; }
         .float-btn i { font-size: 1.4em; color: var(--primary); }
         .float-btn:hover { background: var(--primary-light); color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2); }
+        
+        .back-btn { position: absolute; top: 20px; left: 20px; z-index: 10; }
+        .top-right-btns { position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 10; }
 
         /* Modern Disclaimer Banner */
         .disclaimer-banner {
-            background: var(--warning-bg); border-left: 4px solid var(--danger); color: var(--text-main); padding: 16px 20px; margin: 0 auto 25px auto; border-radius: 12px; font-size: 0.95em; line-height: 1.5; display: flex; align-items: flex-start; gap: 15px; max-width: 850px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            background: var(--warning-bg); border-left: 4px solid var(--danger); color: var(--text-main); padding: 16px 20px; margin: 0 auto 25px auto; border-radius: 12px; font-size: 0.95em; line-height: 1.5; display: flex; align-items: flex-start; gap: 15px; max-width: 850px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); backdrop-filter: blur(10px);
         }
         .disclaimer-banner i { color: var(--danger); font-size: 1.6em; margin-top: 2px;}
 
@@ -127,7 +133,7 @@
         .app-nav { display: flex; gap: 12px; overflow-x: auto; padding: 5px; margin-bottom: 30px; scrollbar-width: none; }
         .app-nav::-webkit-scrollbar { display: none; }
         .app-nav-btn {
-            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.95em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.95em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); font-family: 'Outfit', sans-serif; backdrop-filter: blur(8px);
         }
         .app-nav-btn i { font-size: 1.2em; color: var(--text-muted); transition: 0.3s; }
         .app-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
@@ -144,19 +150,32 @@
         }
         
         .cipher-title { color: var(--text-main); font-size: 1.6em; margin-bottom: 20px; font-weight: 800; display: flex; align-items: center; gap: 12px;}
-        .cipher-icon { font-size: 1.3em; background: var(--primary-light); padding: 10px; border-radius: 12px; color: var(--primary); display: flex; align-items: center; justify-content: center; }
+        .cipher-icon { font-size: 1.3em; background: var(--primary-light); padding: 10px; border-radius: 12px; color: var(--primary); display: flex; align-items: center; justify-content: center; box-shadow: var(--inner-shadow); }
         
+        /* Info Button */
+        .info-btn { margin-left: auto; background: transparent; border: none; color: var(--primary); font-size: 1.2em; cursor: pointer; transition: 0.2s; padding: 6px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .info-btn:hover { background: var(--primary-light); transform: scale(1.1); }
+
         /* Modern Info Box */
-        .info-box { background: var(--input-bg); padding: 16px 20px; margin: 0 0 20px 0; border-radius: 12px; font-size: 1em; color: var(--text-main); line-height: 1.5; border-left: 4px solid var(--primary); }
+        .info-box { background: var(--input-bg); padding: 16px 20px; margin: 0 0 20px 0; border-radius: 12px; font-size: 1em; color: var(--text-main); line-height: 1.5; border-left: 4px solid var(--primary); box-shadow: var(--inner-shadow); }
         
-        /* Input Box */
+        /* Input Box with Clear Button */
         .input-group { margin: 15px 0; position: relative; }
         label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--text-muted); font-size: 0.85em; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-wrapper { position: relative; width: 100%; }
         input[type="text"], input[type="number"] {
-            width: 100%; padding: 16px 20px; border: 2px solid var(--border-color); border-radius: 16px; font-size: 1.1em; transition: 0.3s; background: var(--input-bg); color: var(--text-main); font-weight: 500; font-family: 'Outfit', sans-serif; outline: none;
+            width: 100%; padding: 16px 45px 16px 20px; border: 2px solid var(--border-color); border-radius: 16px; font-size: 1.1em; transition: 0.3s; background: var(--input-bg); color: var(--text-main); font-weight: 500; font-family: 'Outfit', sans-serif; outline: none; box-shadow: var(--inner-shadow);
         }
         input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-light); background: var(--card-bg); }
         
+        .clear-btn {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; color: var(--text-muted);
+            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 1.1em;
+        }
+        .clear-btn:hover { background: var(--warning-bg); color: var(--danger); }
+
         /* Vibrant Buttons */
         .btn { background: var(--primary-gradient); color: white; border: none; padding: 14px 28px; border-radius: 14px; cursor: pointer; font-size: 1.05em; font-weight: 700; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; justify-content: center; font-family: 'Outfit', sans-serif; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
         .btn i { font-size: 1.2em; }
@@ -166,7 +185,7 @@
         .btn-danger { background: var(--danger); color: white; border: none; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2); }
         
         /* Tech Style Result Box */
-        .result-box { background: var(--result-bg); border-radius: 16px; padding: 20px; margin-top: 20px; margin-bottom: 25px; min-height: 90px; font-family: 'Space Mono', monospace; font-size: 1.2em; word-break: break-all; color: var(--result-text); font-weight: 700; }
+        .result-box { background: var(--result-bg); border-radius: 16px; padding: 20px; margin-top: 20px; margin-bottom: 25px; min-height: 90px; font-family: 'Space Mono', monospace; font-size: 1.2em; word-break: break-all; color: var(--result-text); font-weight: 700; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1);}
         .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.2); padding-bottom: 12px; font-family: 'Outfit', sans-serif; }
         .result-label { font-weight: 800; color: var(--text-muted); font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; }
         
@@ -179,12 +198,12 @@
         .empty-state { color: var(--text-muted); font-weight: normal; font-size: 0.9em; font-style: italic; opacity: 0.7; font-family: 'Outfit', sans-serif;}
         
         /* Tabs inside cards */
-        .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 16px; }
+        .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 16px; box-shadow: var(--inner-shadow); }
         .tab-btn { flex: 1; padding: 12px; background: transparent; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1em; font-family: 'Outfit', sans-serif; }
         .tab-btn:hover { color: var(--text-main); }
         .tab-btn.active { background: var(--card-bg); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         
-        /* --- BUG FIX FOR MOBILE SHIFT BUTTONS --- */
+        /* BUG FIX FOR MOBILE SHIFT BUTTONS */
         .shift-control { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: var(--input-bg); padding: 10px; border-radius: 16px; border: 1px solid var(--border-color); }
         .shift-value { font-size: 1.5em; font-weight: 700; color: var(--primary); min-width: 80px; text-align: center; font-family: 'Space Mono', monospace; }
         .shift-control .btn { padding: 0; width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; }
@@ -203,7 +222,7 @@
         .history-list { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; max-height: 400px; overflow-y: auto; padding-right: 5px; }
         .history-list::-webkit-scrollbar { width: 6px; }
         .history-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
-        .history-item { background: var(--input-bg); border-radius: 16px; padding: 18px; position: relative; transition: 0.3s; border: 1px solid transparent; }
+        .history-item { background: var(--input-bg); border-radius: 16px; padding: 18px; position: relative; transition: 0.3s; border: 1px solid transparent; box-shadow: var(--inner-shadow); }
         .history-item:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: var(--card-bg); }
         .h-header { display: flex; justify-content: space-between; margin-bottom: 12px; align-items: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
         .h-badge { background: var(--primary-light); color: var(--primary); padding: 4px 10px; border-radius: 8px; font-size: 0.85em; font-weight: 700; display: flex; align-items: center; gap: 6px; }
@@ -258,19 +277,26 @@
             .h-content { grid-template-columns: 1fr; gap: 10px; } 
             .cipher-card { padding: 20px; } 
             .float-btn span { display: none; } 
-            .float-btn { padding: 12px; border-radius: 50%; }
+            .float-btn { padding: 12px; width: 48px; height: 48px; border-radius: 50%; }
         }
         
-        /* Warning Popup */
+        /* Modals/Popups */
         .popup-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 1; visibility: visible; transition: all 0.3s ease; }
         .popup-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-        .popup-card { background: var(--card-bg); width: 90%; max-width: 420px; border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(0) scale(1); transition: 0.3s; text-align: center; border: 1px solid var(--border-color); }
+        .popup-card { background: var(--card-bg); width: 90%; max-width: 420px; border-radius: 20px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: translateY(0) scale(1); transition: 0.3s; text-align: center; border: 1px solid var(--border-color); backdrop-filter: blur(16px); }
         .popup-overlay.hidden .popup-card { transform: translateY(20px) scale(0.95); }
+        
+        /* Warning specific */
         .popup-icon { font-size: 3em; color: var(--danger); margin-bottom: 10px; animation: pulseWarning 2s infinite; display: inline-block; }
-        .popup-title { color: var(--danger); font-size: 1.5em; font-weight: 800; margin-bottom: 15px; font-family: 'Outfit', sans-serif; }
+        .popup-title { color: var(--text-main); font-size: 1.5em; font-weight: 800; margin-bottom: 15px; font-family: 'Outfit', sans-serif; }
         .popup-message { background: var(--warning-bg); color: var(--text-main); padding: 15px; border-radius: 12px; border-left: 4px solid var(--danger); font-size: 0.9em; line-height: 1.5; text-align: left; margin-bottom: 20px; }
         .popup-checkbox-area { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; cursor: pointer; color: var(--text-main); font-weight: 600; font-size: 0.85em; text-align: left; }
         .popup-checkbox-area input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; }
+        
+        /* Info specific */
+        .info-title { color: var(--primary); font-size: 1.5em; font-weight: 800; margin-bottom: 15px; font-family: 'Outfit', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px;}
+        .info-desc { color: var(--text-main); font-size: 1em; line-height: 1.6; text-align: left; background: var(--input-bg); padding: 15px; border-radius: 12px; border-left: 4px solid var(--primary); margin-bottom: 20px;}
+        
         .btn-popup { width: 100%; padding: 12px; font-size: 1em; border-radius: 14px; }
         .btn-popup:disabled { background: var(--input-bg); color: var(--text-muted); cursor: not-allowed; box-shadow: none; transform: none; border: 2px solid var(--border-color); }
         @keyframes pulseWarning { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
@@ -287,7 +313,7 @@
     <div class="popup-overlay" id="warningOverlay">
         <div class="popup-card">
             <i class="ph-fill ph-warning-octagon popup-icon"></i>
-            <h2 class="popup-title">সতর্কবার্তা</h2>
+            <h2 class="popup-title" style="color: var(--danger);">সতর্কবার্তা</h2>
             <div class="popup-message">
                 <strong>সতর্কতা:</strong> এই টুলটি শুধুমাত্র শেখার এবং ক্যাম্পের আগে নিজেকে প্রস্তুত করার উদ্দেশ্যে তৈরি করা হয়েছে। কোনো স্কাউট ক্যাম্পে বা মূল্যায়নের সময় এটি ব্যবহার করা সম্পূর্ণ নিষেধ! 
                 <br><br>
@@ -303,15 +329,46 @@
         </div>
     </div>
 
+    <div class="popup-overlay hidden" id="infoOverlay">
+        <div class="popup-card">
+            <div class="info-title"><i class="ph-bold ph-info"></i> <span id="infoTitle">Title</span></div>
+            <div class="info-desc" id="infoDesc">Description goes here...</div>
+            <button class="btn btn-popup" onclick="closeInfo()">
+                <i class="ph-bold ph-x-circle"></i> Close Guide
+            </button>
+        </div>
+    </div>
+
+    <div class="popup-overlay hidden" id="aboutOverlay">
+        <div class="popup-card">
+            <i class="ph-fill ph-info popup-icon" style="color: var(--primary); animation: none;"></i>
+            <h2 class="popup-title">App Details</h2>
+            <div class="popup-message" style="background: var(--input-bg); border-left: 4px solid var(--primary); text-align: center;">
+                <h3 style="margin-bottom: 5px; color: var(--primary); font-family: 'Outfit', sans-serif;">Scout Decoder Pro</h3>
+                <p style="font-size: 1.1em; font-weight: bold;">Version: 2.0.1</p>
+                <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-muted);">Developed exclusively for Scout members to learn, practice, and decode ciphers efficiently.</p>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.9em; margin-bottom: 15px; font-weight: bold;">Developer: <a href="https://tanvir-tasin.pages.dev/" target="_blank" style="color: var(--primary); text-decoration: underline;">Tanvir Tasin</a></p>
+            <button class="btn btn-popup" onclick="closeAbout()">
+                <i class="ph-bold ph-check-circle"></i> Awesome!
+            </button>
+        </div>
+    </div>
+
     <div class="container">
         
         <a href="javascript:history.back()" class="float-btn back-btn">
             <i class="ph-bold ph-arrow-left"></i> <span>Back</span>
         </a>
 
-        <button class="float-btn theme-toggle-btn" onclick="toggleTheme()" id="themeIcon">
-            <i class="ph-bold ph-moon"></i> <span>Dark Mode</span>
-        </button>
+        <div class="top-right-btns">
+            <button class="float-btn theme-toggle-btn" onclick="toggleTheme()" id="themeIcon" style="position: relative; top: 0; right: 0;">
+                <i class="ph-bold ph-moon"></i> <span>Dark Mode</span>
+            </button>
+            <button class="float-btn menu-btn" onclick="openAbout()" style="position: relative; top: 0; right: 0;">
+                <i class="ph-bold ph-dots-three-vertical"></i> <span>Menu</span>
+            </button>
+        </div>
 
         <header>
             <h1><i class="ph-fill ph-shield-check" style="color: var(--primary);"></i> Scout Decoder</h1>
@@ -335,15 +392,22 @@
             <button class="app-nav-btn" onclick="openCipher('view-reverse', this)"><i class="ph-bold ph-arrows-split"></i> Reverse</button>
             <button class="app-nav-btn" onclick="openCipher('view-pigpen', this)"><i class="ph-bold ph-hash"></i> Pigpen</button>
             <button class="app-nav-btn" onclick="openCipher('view-morse', this)"><i class="ph-bold ph-broadcast"></i> Morse</button>
+            <button class="app-nav-btn" onclick="openCipher('view-semaphore', this)"><i class="ph-bold ph-flag"></i> Semaphore</button>
             <button class="app-nav-btn nav-history-btn" onclick="openCipher('view-history', this); renderHistory();"><i class="ph-bold ph-clock-counter-clockwise"></i> History</button>
         </div>
 
         <div id="view-magic" class="cipher-view active-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-magic-wand"></i></span> Magic Box (Auto-Detect)</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-magic-wand"></i></span> Magic Box (Auto-Detect)
+                    <button class="info-btn" onclick="openInfo('magic')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="info-box">অজানা কোনো কোড এখানে পেস্ট করো। ম্যাজিক বক্স নিজে থেকেই স্ক্যান করে ডিকোড করার চেষ্টা করবে!</div>
                 <div class="input-group">
-                    <input type="text" id="magicInp" placeholder="Paste unknown secret message here..." oninput="detectCipher()">
+                    <div class="input-wrapper">
+                        <input type="text" id="magicInp" placeholder="Paste unknown secret message here..." oninput="detectCipher()">
+                        <button class="clear-btn" onclick="clearInput('magicInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
                 </div>
                 <div id="magicOut" style="margin-top: 15px;"></div>
             </div>
@@ -351,14 +415,22 @@
 
         <div id="view-num" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-list-numbers"></i></span> Number Cipher</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-list-numbers"></i></span> Number Cipher
+                    <button class="info-btn" onclick="openInfo('num')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="mapping-table" id="numMapping"></div>
                 <div class="tab-buttons">
                     <button class="tab-btn active" onclick="switchTab(this, 'num-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
                     <button class="tab-btn" onclick="switchTab(this, 'num-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
                 </div>
                 <div id="num-encode" class="tab-content active">
-                    <div class="input-group"><input type="text" id="numInp" placeholder="Enter Text..." oninput="execCipher('num', 'encode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="numInp" placeholder="Enter Text..." oninput="execCipher('num', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('numInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Result</span>
@@ -371,7 +443,12 @@
                     </div>
                 </div>
                 <div id="num-decode" class="tab-content">
-                    <div class="input-group"><input type="text" id="numDecInp" placeholder="Enter Numbers (e.g. 19 03)..." oninput="execCipher('num', 'decode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="numDecInp" placeholder="Enter Numbers (e.g. 19 03)..." oninput="execCipher('num', 'decode')">
+                            <button class="clear-btn" onclick="clearInput('numDecInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Result</span>
@@ -388,9 +465,17 @@
 
         <div id="view-atbash" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-arrows-left-right"></i></span> Atbash (Reverse)</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-arrows-left-right"></i></span> Atbash (Reverse)
+                    <button class="info-btn" onclick="openInfo('atbash')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="mapping-table" id="atbashMapping"></div>
-                <div class="input-group"><input type="text" id="atbashInp" placeholder="Type message..." oninput="execCipher('atbash')"></div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="atbashInp" placeholder="Type message..." oninput="execCipher('atbash')">
+                        <button class="clear-btn" onclick="clearInput('atbashInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
+                </div>
                 <div class="result-box">
                     <div class="result-header">
                         <span class="result-label">Result</span>
@@ -406,7 +491,10 @@
 
         <div id="view-caesar" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-target"></i></span> Scout Shift Table</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-target"></i></span> Scout Shift Table
+                    <button class="info-btn" onclick="openInfo('caesar')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="shift-control">
                     <button class="btn btn-secondary" onclick="updateShift(-1)"><i class="ph-bold ph-caret-left"></i></button>
                     <div class="shift-value" id="caesarShiftDisplay">A = B</div>
@@ -418,7 +506,12 @@
                     <button class="tab-btn" onclick="switchTab(this, 'caesar-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
                 </div>
                 <div id="caesar-encode" class="tab-content active">
-                    <div class="input-group"><input type="text" id="caesarInp" placeholder="Original text..." oninput="execCipher('caesar', 'encode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="caesarInp" placeholder="Original text..." oninput="execCipher('caesar', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('caesarInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Encoded</span>
@@ -431,7 +524,12 @@
                     </div>
                 </div>
                 <div id="caesar-decode" class="tab-content">
-                    <div class="input-group"><input type="text" id="caesarDecInp" placeholder="Ciphered text..." oninput="execCipher('caesar', 'decode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="caesarDecInp" placeholder="Ciphered text..." oninput="execCipher('caesar', 'decode')">
+                            <button class="clear-btn" onclick="clearInput('caesarDecInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Decoded</span>
@@ -448,10 +546,16 @@
 
         <div id="view-keyword" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-key"></i></span> Keyword Cipher</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-key"></i></span> Keyword Cipher
+                    <button class="info-btn" onclick="openInfo('keyword')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="input-group">
                     <label>Secret Keyword</label>
-                    <input type="text" id="keyInp" placeholder="e.g. SCOUT" oninput="execCipher('keyword', 'encode'); execCipher('keyword', 'decode');" value="SCOUT">
+                    <div class="input-wrapper">
+                        <input type="text" id="keyInp" placeholder="e.g. SCOUT" oninput="execCipher('keyword', 'encode'); execCipher('keyword', 'decode');" value="SCOUT">
+                        <button class="clear-btn" onclick="clearInput('keyInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
                 </div>
                 <div class="mapping-table" id="keyMapping"></div>
                 <div class="tab-buttons">
@@ -459,7 +563,12 @@
                     <button class="tab-btn" onclick="switchTab(this, 'key-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
                 </div>
                 <div id="key-encode" class="tab-content active">
-                    <div class="input-group"><input type="text" id="keyMsgInp" placeholder="Type message..." oninput="execCipher('keyword', 'encode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="keyMsgInp" placeholder="Type message..." oninput="execCipher('keyword', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('keyMsgInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Encoded</span>
@@ -472,7 +581,12 @@
                     </div>
                 </div>
                 <div id="key-decode" class="tab-content">
-                    <div class="input-group"><input type="text" id="keyMsgDecInp" placeholder="Type cipher..." oninput="execCipher('keyword', 'decode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="keyMsgDecInp" placeholder="Type cipher..." oninput="execCipher('keyword', 'decode')">
+                            <button class="clear-btn" onclick="clearInput('keyMsgDecInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Decoded</span>
@@ -489,13 +603,21 @@
 
         <div id="view-column" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-columns"></i></span> Column Method</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-columns"></i></span> Column Method
+                    <button class="info-btn" onclick="openInfo('column')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="shift-control">
                     <button class="btn btn-secondary" onclick="updateColumn(-1)"><i class="ph-bold ph-minus"></i></button>
                     <div class="shift-value" id="colNumDisplay">4</div>
                     <button class="btn btn-secondary" onclick="updateColumn(1)"><i class="ph-bold ph-plus"></i></button>
                 </div>
-                <div class="input-group"><input type="text" id="colInp" placeholder="Enter message..." oninput="execCipher('column')"></div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="colInp" placeholder="Enter message..." oninput="execCipher('column')">
+                        <button class="clear-btn" onclick="clearInput('colInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
+                </div>
                 <div id="colVisualGrid"></div>
                 <div class="result-box">
                     <div class="result-header">
@@ -512,8 +634,16 @@
 
         <div id="view-reverse" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-arrows-split"></i></span> Word Reverse</div>
-                <div class="input-group"><input type="text" id="revInp" placeholder="Type here..." oninput="execCipher('wordrev')"></div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-arrows-split"></i></span> Word Reverse
+                    <button class="info-btn" onclick="openInfo('reverse')"><i class="ph-bold ph-info"></i></button>
+                </div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="revInp" placeholder="Type here..." oninput="execCipher('wordrev')">
+                        <button class="clear-btn" onclick="clearInput('revInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
+                </div>
                 <div class="result-box">
                     <div class="result-header">
                         <span class="result-label">Reversed</span>
@@ -529,7 +659,10 @@
 
         <div id="view-pigpen" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-hash"></i></span> Pigpen Mapping</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-hash"></i></span> Pigpen Mapping
+                    <button class="info-btn" onclick="openInfo('pigpen')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 
                 <div class="pigpen-key-container">
                     <table class="pg-grid"><tr><td>A</td><td class="b-lr">B</td><td>C</td></tr><tr><td class="b-tb">D</td><td class="b-all">E</td><td class="b-tb">F</td></tr><tr><td>G</td><td class="b-lr">H</td><td>I</td></tr></table>
@@ -538,7 +671,12 @@
                     <div class="pg-x-wrapper"><div class="pg-x-bg"></div><div class="pg-x-char pg-x-t">W<sup>•</sup></div><div class="pg-x-char pg-x-r">X<sup>•</sup></div><div class="pg-x-char pg-x-b">Y<sup>•</sup></div><div class="pg-x-char pg-x-l">Z<sup>•</sup></div></div>
                 </div>
 
-                <div class="input-group"><input type="text" id="pigpenInp" placeholder="Enter text..." oninput="execCipher('pigpen')"></div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="pigpenInp" placeholder="Enter text..." oninput="execCipher('pigpen')">
+                        <button class="clear-btn" onclick="clearInput('pigpenInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
+                </div>
                 <div class="result-box" style="font-size: 2em; text-align: center;">
                     <div class="result-header" style="font-size: 0.4em; font-family: 'Outfit', sans-serif;">
                         <span class="result-label">Symbols</span>
@@ -554,14 +692,22 @@
 
         <div id="view-morse" class="cipher-view">
             <div class="cipher-card">
-                <div class="cipher-title"><span class="cipher-icon"><i class="ph-bold ph-broadcast"></i></span> Morse Code</div>
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-broadcast"></i></span> Morse Code
+                    <button class="info-btn" onclick="openInfo('morse')"><i class="ph-bold ph-info"></i></button>
+                </div>
                 <div class="morse-dict" id="morseDictionary"></div>
                 <div class="tab-buttons" style="margin-top: 15px;">
                     <button class="tab-btn active" onclick="switchTab(this, 'morse-encode')"><i class="ph-bold ph-text-t"></i> Text to Morse</button>
                     <button class="tab-btn" onclick="switchTab(this, 'morse-decode')"><i class="ph-bold ph-radio-wave"></i> Morse to Text</button>
                 </div>
                 <div id="morse-encode" class="tab-content active">
-                    <div class="input-group"><input type="text" id="morseInp" placeholder="Enter text..." oninput="execCipher('morse', 'encode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="morseInp" placeholder="Enter text..." oninput="execCipher('morse', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('morseInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box" style="margin-bottom: 12px;">
                         <div class="result-header">
                             <span class="result-label">Morse</span>
@@ -575,7 +721,12 @@
                     <button class="btn" onclick="playMorse()" style="width: 100%;"><i class="ph-bold ph-speaker-high"></i> Play Audio Sound</button>
                 </div>
                 <div id="morse-decode" class="tab-content">
-                    <div class="input-group"><input type="text" id="morseDecInp" placeholder="Use dots(.) and dashes(-)..." oninput="execCipher('morse', 'decode')"></div>
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="morseDecInp" placeholder="Use dots(.) and dashes(-)..." oninput="execCipher('morse', 'decode')">
+                            <button class="clear-btn" onclick="clearInput('morseDecInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
                     <div class="result-box">
                         <div class="result-header">
                             <span class="result-label">Text</span>
@@ -590,13 +741,43 @@
             </div>
         </div>
 
+        <div id="view-semaphore" class="cipher-view">
+            <div class="cipher-card">
+                <div class="cipher-title">
+                    <span class="cipher-icon"><i class="ph-bold ph-flag"></i></span> Semaphore
+                    <button class="info-btn" onclick="openInfo('semaphore')"><i class="ph-bold ph-info"></i></button>
+                </div>
+                <div class="info-box">টেক্সট লিখে অটোমেটিক ফ্ল্যাগ সিগন্যাল দেখুন!</div>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="semaInp" placeholder="Enter text..." oninput="execCipher('semaphore')">
+                        <button class="clear-btn" onclick="clearInput('semaInp')"><i class="ph-bold ph-x"></i></button>
+                    </div>
+                </div>
+                <div class="result-box" style="text-align: center; background: var(--card-bg);">
+                    <div class="result-header" style="flex-direction: column; align-items: center; gap: 5px;">
+                        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+                            <span class="result-label">Flag Signals</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Semaphore', 'Encode', 'semaInp', 'semaOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.85em; color: var(--text-muted); font-weight: normal; font-family: 'Outfit', sans-serif; text-transform: none; letter-spacing: normal; margin-top: 5px;">
+                            (নির্দেশিকা: মাঝের গোল বিন্দুটি স্কাউটের শরীর এবং দুই পাশের লাইন দুটি হাতের পতাকা)
+                        </div>
+                    </div>
+                    <div id="semaOut"><span class="empty-state">Waiting for input...</span></div>
+                </div>
+            </div>
+        </div>
+
         <div id="view-history" class="cipher-view">
             <div class="cipher-card">
                 <div class="cipher-title" style="justify-content: space-between; flex-wrap: wrap;">
                     <span style="display:flex; align-items:center; gap:10px;"><span class="cipher-icon"><i class="ph-bold ph-clock-counter-clockwise"></i></span> Saved History</span>
                     <div style="display: flex; gap: 8px;">
-                        <button class="btn btn-secondary" style="font-size: 0.85em; padding: 8px 14px; border-radius: 10px;" onclick="downloadHistory()"><i class="ph-bold ph-download-simple"></i> Download .txt</button>
-                        <button class="btn btn-danger" style="border-radius: 10px;" onclick="clearAllHistory()"><i class="ph-bold ph-trash"></i> Clear All</button>
+                        <button class="btn btn-secondary" style="font-size: 0.8em; padding: 6px 12px; border-radius: 8px; min-width: auto; height: auto; box-shadow: 0 2px 5px rgba(0,0,0,0.05);" onclick="downloadHistory()"><i class="ph-bold ph-download-simple"></i> Download .txt</button>
+                        <button class="btn btn-danger" style="font-size: 0.8em; padding: 6px 12px; border-radius: 8px; min-width: auto; height: auto; box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);" onclick="clearAllHistory()"><i class="ph-bold ph-trash"></i> Clear All</button>
                     </div>
                 </div>
                 
@@ -606,7 +787,7 @@
         </div>
 
         <div class="credit-footer">
-            <p>Developed for learning spirit by <span class="credit-name">Tanvir Tasin</span></p>
+            <p>Developed for learning spirit by <a href="https://tanvir-tasin.pages.dev/" target="_blank" class="credit-name" style="text-decoration: none;">Tanvir Tasin</a></p>
             <div class="accuracy-badge"><i class="ph-bold ph-check-circle"></i> 85% Accurate Scout Standard</div>
         </div>
 
@@ -617,28 +798,53 @@
     <script>
         // --- Warning Popup Logic ---
         document.addEventListener('DOMContentLoaded', () => {
-            // পপআপ ওপেন থাকা অবস্থায় ব্যাকগ্রাউন্ড স্ক্রল বন্ধ রাখা
             document.body.style.overflow = 'hidden';
         });
 
         function checkConsent() {
             const checkbox = document.getElementById('consentCheckbox');
             const btn = document.getElementById('agreeBtn');
-            
             if (checkbox.checked) {
-                btn.disabled = false;
-                btn.classList.add('btn-danger'); // এনাবেল হলে কালার চেঞ্জ হবে
+                btn.disabled = false; btn.classList.add('btn-danger'); 
             } else {
-                btn.disabled = true;
-                btn.classList.remove('btn-danger');
+                btn.disabled = true; btn.classList.remove('btn-danger');
             }
         }
 
         function enterApp() {
-            const overlay = document.getElementById('warningOverlay');
-            overlay.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // ব্যাকগ্রাউন্ড স্ক্রল আবার চালু করা
+            document.getElementById('warningOverlay').classList.add('hidden');
+            document.body.style.overflow = 'auto'; 
             showToast("<i class='ph-bold ph-shield-check'></i> Welcome to Scout Decoder!", "success");
+        }
+
+        // --- Info/Guide Modal Logic ---
+        const CIPHER_INFO = {
+            'magic': { title: 'Magic Box', desc: 'অজানা কোনো সংকেত বা কোড এখানে পেস্ট করলে, এটি অটোমেটিক স্ক্যান করে ডিকোড করার চেষ্টা করে। এটি মূলত মর্স, পিগপেন, নাম্বার ও রিভার্স কোড চিনতে পারে।' },
+            'num': { title: 'Number Cipher', desc: 'বর্ণমালার A থেকে Z পর্যন্ত অক্ষরগুলোকে 1 থেকে 26 সংখ্যায় সাজিয়ে এই কোড তৈরি হয়। (যেমন: A=1, B=2... Z=26)' },
+            'atbash': { title: 'Atbash Cipher', desc: 'এটি একটি রিভার্স বর্ণমালা সাইফার। এখানে প্রথম অক্ষর (A) এর বদলে শেষ অক্ষর (Z), B এর বদলে Y - এভাবে লেখা হয়।' },
+            'caesar': { title: 'Shift Table (Caesar)', desc: 'এখানে প্রতিটি অক্ষরকে নির্দিষ্ট ঘর সামনে বা পেছনে সরিয়ে কোড করা হয়। স্কাউটিংয়ে সাধারণত "A=B" বা 1 ঘর শিফট বেশি ব্যবহার করা হয়।' },
+            'keyword': { title: 'Keyword Cipher', desc: 'একটি গোপন শব্দ (Keyword) দিয়ে বর্ণমালা সাজানো হয় এবং তারপর সাধারণ বর্ণমালার সাথে সেটা মিলিয়ে কোড তৈরি করা হয়।' },
+            'column': { title: 'Column Method', desc: 'স্কাউটিংয়ের একটি জনপ্রিয় সাইফার। এখানে মেসেজটিকে নির্দিষ্ট সংখ্যক কলামে উপর থেকে নিচে লেখা হয় এবং পরে পাশাপাশি পড়ে কোড বের করা হয়।' },
+            'reverse': { title: 'Word Reverse', desc: 'খুব সহজ একটি টেকনিক, যেখানে প্রতিটি শব্দকে উল্টো দিক থেকে লেখা হয়। (যেমন: SCOUT হয়ে যাবে TUOCS)' },
+            'pigpen': { title: 'Pigpen Cipher', desc: 'জ্যামিতিক ছক বা বক্স ব্যবহার করে এই কোড তৈরি হয়। ডট (•) এবং লাইন দিয়ে অক্ষরগুলোকে বোঝানো হয়। এটি ম্যাসনিক সাইফার নামেও পরিচিত।' },
+            'morse': { title: 'Morse Code', desc: 'ডট (•) এবং ড্যাশ (-) দিয়ে সংকেত পাঠানো হয়। এটি শব্দ, আলো বা রেডিও সিগন্যালের মাধ্যমে পাঠানো যায়।' },
+            'semaphore': { title: 'Semaphore Flags', desc: 'হাতে দুটি পতাকা নিয়ে নির্দিষ্ট কোণে পজিশন তৈরি করে সংকেত দেওয়া হয়। স্কাউটদের জন্য এটি খুবই গুরুত্বপূর্ণ একটি সিগন্যালিং পদ্ধতি।' }
+        };
+
+        function openInfo(type) {
+            document.getElementById('infoTitle').innerText = CIPHER_INFO[type].title;
+            document.getElementById('infoDesc').innerText = CIPHER_INFO[type].desc;
+            document.getElementById('infoOverlay').classList.remove('hidden');
+        }
+        function closeInfo() {
+            document.getElementById('infoOverlay').classList.add('hidden');
+        }
+        
+        function openAbout() {
+            document.getElementById('aboutOverlay').classList.remove('hidden');
+        }
+        function closeAbout() {
+            document.getElementById('aboutOverlay').classList.add('hidden');
         }
 
         // --- 1. Theme Management ---
@@ -655,7 +861,6 @@
                 themeBtn.innerHTML = '<i class="ph-bold ph-sun"></i> <span>Light Mode</span>';
             }
         }
-        
         if(localStorage.getItem('scoutTheme') === 'dark') {
             document.body.setAttribute('data-theme', 'dark');
             document.getElementById('themeIcon').innerHTML = '<i class="ph-bold ph-sun"></i> <span>Light Mode</span>';
@@ -671,7 +876,6 @@
             const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
             const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(manifestBlob);
             document.head.appendChild(link);
-
             if ('serviceWorker' in navigator) {
                 const swCode = `self.addEventListener('install', e => e.waitUntil(caches.open('scout-v1').then(c => c.addAll([location.pathname])))); self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));`;
                 const swBlob = new Blob([swCode], {type: 'application/javascript'});
@@ -686,6 +890,9 @@
         const MORSE_MAP = {'A':'.-', 'B':'-...', 'C':'-.-.', 'D':'-..', 'E':'.', 'F':'..-.', 'G':'--.', 'H':'....', 'I':'..', 'J':'.---', 'K':'-.-', 'L':'.-..', 'M':'--', 'N':'-.', 'O':'---', 'P':'.--.', 'Q':'--.-', 'R':'.-.', 'S':'...', 'T':'-', 'U':'..-', 'V':'...-', 'W':'.--', 'X':'-..-', 'Y':'-.--', 'Z':'--..', '1':'.----', '2':'..---', '3':'...--', '4':'....-', '5':'.....', '6':'-....', '7':'--...', '8':'---..', '9':'----.', '0':'-----', ' ':'/'};
         const REVERSE_MORSE = Object.fromEntries(Object.entries(MORSE_MAP).map(([k, v]) => [v, k]));
         const REV_PIGPEN = {'⨼':'A','⨆':'B','⨽':'C','⨢':'D','⨅':'E','⨣':'F','⨱':'G','⨄':'H','⨲':'I','⨼•':'J','⨆•':'K','⨽•':'L','⨢•':'M','⨅•':'N','⨣•':'O','⨱•':'P','⨄•':'Q','⨲•':'R','∨':'S','>':'T','<':'U','∧':'V','∨•':'W','>•':'X','<•':'Y','∧•':'Z'};
+        
+        // Semaphore Angles (N=0, NE=45, E=90, SE=135, S=180, SW=225, W=270, NW=315)
+        const SEMA_ANGLES = { 'A':[180, 225], 'B':[180, 270], 'C':[180, 315], 'D':[180, 0], 'E':[180, 45], 'F':[180, 90], 'G':[180, 135], 'H':[225, 270], 'I':[225, 315], 'J':[0, 90], 'K':[225, 0], 'L':[225, 45], 'M':[225, 90], 'N':[225, 135], 'O':[270, 315], 'P':[270, 0], 'Q':[270, 45], 'R':[270, 90], 'S':[270, 135], 'T':[315, 0], 'U':[315, 45], 'V':[0, 135], 'W':[45, 90], 'X':[45, 135], 'Y':[315, 90], 'Z':[135, 90] };
 
         window.onload = function() {
             setupPWA();
@@ -695,6 +902,26 @@
             updateShift(0); execCipher('keyword', 'encode');
             document.getElementById('morseDictionary').innerHTML = Object.entries(MORSE_MAP).map(([k,v]) => `<div class="morse-item"><span>${k}</span><span>${v}</span></div>`).join('');
         };
+
+        // Input clear function
+        function clearInput(id) {
+            const el = document.getElementById(id);
+            el.value = '';
+            el.dispatchEvent(new Event('input'));
+        }
+
+        // Semaphore SVG Generator
+        function getSemaphoreSVG(char) {
+            if(char === ' ') return '<div style="width:20px; display:inline-block;"></div>';
+            if(!SEMA_ANGLES[char]) return `<span style="font-size:0.5em; vertical-align:top; margin: 0 5px;">${char}</span>`;
+            let [a1, a2] = SEMA_ANGLES[char];
+            return `<svg viewBox="0 0 100 100" style="width:50px;height:50px;margin:5px;display:inline-block;" title="${char}">
+                <circle cx="50" cy="50" r="8" fill="var(--primary)"/>
+                <line x1="50" y1="50" x2="50" y2="12" stroke="var(--text-main)" stroke-width="7" stroke-linecap="round" transform="rotate(${a1} 50 50)"/>
+                <line x1="50" y1="50" x2="50" y2="12" stroke="var(--danger)" stroke-width="7" stroke-linecap="round" transform="rotate(${a2} 50 50)"/>
+                <text x="50" y="98" font-size="18" fill="var(--text-muted)" text-anchor="middle" font-family="Outfit" font-weight="bold">${char}</text>
+            </svg>`;
+        }
 
         // --- 3. Magic Box Auto-Detect ---
         function detectCipher() {
@@ -726,33 +953,27 @@
 
         // App Navigation
         function openCipher(viewId, btnElement) {
+            if(navigator.vibrate) navigator.vibrate(20); // Small haptic feedback
             document.querySelectorAll('.cipher-view').forEach(v => v.classList.remove('active-view'));
             document.querySelectorAll('.app-nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(viewId).classList.add('active-view');
             btnElement.classList.add('active');
         }
 
-        // --- 4. Download History ---
         function downloadHistory() {
             let history = JSON.parse(localStorage.getItem('scoutCipherHistory')) || [];
             if(history.length === 0) { showToast("<i class='ph-bold ph-warning'></i> No history to download!", "danger"); return; }
-            
             let text = "=== Scout Cipher Decoder Pro - Log Book ===\n\n";
             history.forEach(item => {
-                text += `[${item.time}] ${item.cipher} (${item.mode})\n`;
-                text += `Input:  ${item.input}\nResult: ${item.output}\n`;
-                text += `-------------------------------------------\n`;
+                text += `[${item.time}] ${item.cipher} (${item.mode})\nInput:  ${item.input}\nResult: ${item.output}\n-------------------------------------------\n`;
             });
-
-            let a = document.createElement('a');
-            a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
-            a.download = `Scout_LogBook_${new Date().toISOString().slice(0,10)}.txt`;
-            a.click();
+            let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+            a.download = `Scout_LogBook_${new Date().toISOString().slice(0,10)}.txt`; a.click();
             showToast("<i class='ph-bold ph-download-simple'></i> LogBook Downloaded!", "success");
         }
 
-        // History Management
         function saveHistory(cipherName, mode, inputId, outputId) {
+            if(navigator.vibrate) navigator.vibrate(30);
             let input = document.getElementById(inputId).value;
             let output = document.getElementById(outputId).innerText;
             if(!input || output.includes("Waiting")) { showToast("<i class='ph-bold ph-warning'></i> Nothing to save!", "danger"); return; }
@@ -795,6 +1016,7 @@
         }
 
         function switchTab(btn, tabId) {
+            if(navigator.vibrate) navigator.vibrate(20);
             let parent = btn.closest('.cipher-card');
             parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             parent.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -808,6 +1030,7 @@
         }
 
         function copyResult(id) {
+            if(navigator.vibrate) navigator.vibrate(30);
             const el = document.getElementById(id);
             if(el.innerText && !el.innerText.includes("Waiting")) {
                 navigator.clipboard.writeText(el.innerText); showToast("<i class='ph-bold ph-check-circle'></i> Copied to clipboard!", "success");
@@ -900,6 +1123,11 @@
                         if(!text) { document.getElementById('morseDecOut').innerHTML = emptyStateHTML; return; }
                         document.getElementById('morseDecOut').innerText = text.split(/\s+/).map(m => REVERSE_MORSE[m] || (m==='/'?' ':'?')).join('') || '-';
                     }
+                }
+                if(type === 'semaphore') {
+                    let text = document.getElementById('semaInp').value.toUpperCase();
+                    if(!text) { document.getElementById('semaOut').innerHTML = emptyStateHTML; return; }
+                    document.getElementById('semaOut').innerHTML = text.split('').map(c => getSemaphoreSVG(c)).join('');
                 }
             } catch (err) { console.error("Cipher Error:", err); }
         }
