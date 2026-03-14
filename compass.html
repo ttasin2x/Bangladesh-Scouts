@@ -56,6 +56,8 @@
         body.dark-mode .purple-header { background: linear-gradient(135deg, #3B389A, #28266D); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .back-btn { background: transparent; border: none; color: white; cursor: pointer; outline: none; padding: 0 5px; display: flex; align-items: center; transition: transform 0.2s;}
+        .back-btn:active { transform: scale(0.9); }
         .date-time { font-size: 14px; font-weight: 600; letter-spacing: 0.5px;}
         .menu-btn { background: transparent; border: none; color: white; font-size: 26px; cursor: pointer; outline: none; padding: 0 5px;}
 
@@ -316,6 +318,12 @@
         
         <div class="purple-header">
             <div class="top-bar">
+                <button class="back-btn" onclick="window.history.back()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
                 <div class="date-time" id="dateTimeDisplay">Loading Date & Time...</div>
                 <button class="menu-btn" onclick="toggleMenu()">⋮</button>
             </div>
@@ -524,14 +532,14 @@
         }
 
         function confirmDownload() {
-            // আপনার ডাউনলোডের লিংকটি নিচের ফাঁকা জায়গায় বসিয়ে দিন
+            // আপনার ডাউনলোডের লিংকটি নিচের ফাঁকা জায়গায় বসিয়ে দিন
             const downloadLink = "https://github.com/ttasin2x/Compass-apk/releases/download/scout_compass/Scout.Toolkit_1.0_sign.apk";
             
             if (downloadLink === "YOUR_DOWNLOAD_LINK_HERE") {
-                alert("ডাউনলোড লিংক এখনও যুক্ত করা হয়নি!");
+                alert("ডাউনলোড লিংক এখনও যুক্ত করা হয়নি!");
             } else {
-                window.location.href = downloadLink; // এটা দিয়ে লিংক ওপেন/ডাউনলোড হবে
-                closeDownloadModal(); // ডাউনলোড শুরু হলে বক্সটা বন্ধ হয়ে যাবে
+                window.location.href = downloadLink; // এটা দিয়ে লিংক ওপেন/ডাউনলোড হবে
+                closeDownloadModal(); // ডাউনলোড শুরু হলে বক্সটা বন্ধ হয়ে যাবে
             }
         }
         // -------------------------------
