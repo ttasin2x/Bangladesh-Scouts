@@ -150,13 +150,13 @@
         }
         .disclaimer-banner i { color: var(--danger); font-size: 1.6em; margin-top: 2px;}
 
-        /* Modern App Navigation */
-        .app-nav { display: flex; gap: 12px; overflow-x: auto; padding: 5px; margin-bottom: 30px; scrollbar-width: none; }
+        /* Modern App Navigation - Buttons Made Smaller */
+        .app-nav { display: flex; gap: 10px; overflow-x: auto; padding: 5px; margin-bottom: 30px; scrollbar-width: none; }
         .app-nav::-webkit-scrollbar { display: none; }
         .app-nav-btn {
-            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.95em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); font-family: 'Outfit', 'Hind', sans-serif; backdrop-filter: blur(8px);
+            background: var(--nav-btn-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: 600; font-size: 0.9em; white-space: nowrap; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.02); font-family: 'Outfit', 'Hind', sans-serif; backdrop-filter: blur(8px);
         }
-        .app-nav-btn i { font-size: 1.2em; color: var(--text-muted); transition: 0.3s; }
+        .app-nav-btn i { font-size: 1.15em; color: var(--text-muted); transition: 0.3s; }
         .app-nav-btn:hover { border-color: var(--primary); color: var(--primary); }
         .app-nav-btn:hover i { color: var(--primary); }
         .app-nav-btn.active { background: var(--primary-gradient); color: white; border: none; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); transform: translateY(-2px); }
@@ -218,13 +218,17 @@
         
         .empty-state { color: var(--text-muted); font-weight: normal; font-size: 0.9em; font-style: italic; opacity: 0.7; font-family: 'Outfit', 'Hind', sans-serif;}
         
-        /* Tabs inside cards */
+        /* Tabs inside cards - FIXED LOGIC */
         .tab-buttons { display: flex; gap: 8px; margin-bottom: 20px; background: var(--input-bg); padding: 6px; border-radius: 16px; box-shadow: var(--inner-shadow); }
         .tab-btn { flex: 1; padding: 12px; background: transparent; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; color: var(--text-muted); transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1em; font-family: 'Outfit', 'Hind', sans-serif; }
         .tab-btn:hover { color: var(--text-main); }
         .tab-btn.active { background: var(--card-bg); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         
-        /* BUG FIX FOR MOBILE SHIFT BUTTONS */
+        /* HIDDEN TABS CSS */
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        
+        /* MOBILE SHIFT BUTTONS */
         .shift-control { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; background: var(--input-bg); padding: 10px; border-radius: 16px; border: 1px solid var(--border-color); }
         .shift-value { font-size: 1.5em; font-weight: 700; color: var(--primary); min-width: 80px; text-align: center; font-family: 'Space Mono', monospace; }
         .shift-control .btn { padding: 0; width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; }
@@ -280,7 +284,8 @@
 
         /* Footer Credits */
         .credit-footer { margin-top: auto; padding: 30px 15px 20px; text-align: center; border-top: 1px dashed var(--border-color); color: var(--text-muted); font-size: 0.95em; font-weight: 500; font-family: 'Outfit', 'Hind', sans-serif;}
-        .credit-name { color: var(--primary); font-weight: 800; letter-spacing: 0.5px; }
+        .credit-name { color: var(--primary); font-weight: 800; letter-spacing: 0.5px; text-decoration: none;}
+        .credit-name:hover { text-decoration: underline; }
         .accuracy-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 0.85em; font-weight: 700; margin-top: 10px; border: 1px solid rgba(99, 102, 241, 0.2); }
 
         /* Toast */
@@ -299,6 +304,10 @@
             .cipher-card { padding: 20px; } 
             .float-btn span { display: none; } 
             .float-btn { padding: 12px; width: 48px; height: 48px; border-radius: 50%; }
+            
+            /* NAV BUTTONS SMALLER FOR MOBILE */
+            .app-nav-btn { padding: 8px 14px; font-size: 0.85em; gap: 5px; }
+            .app-nav-btn i { font-size: 1.1em; }
         }
         
         /* Modals/Popups */
@@ -369,7 +378,7 @@
                 <p style="font-size: 1.1em; font-weight: bold;">Version: 2.0.1</p>
                 <p style="margin-top: 10px; font-size: 0.9em; color: var(--text-muted); font-family: 'Hind', sans-serif;">Developed exclusively for Scout members to learn, practice, and decode ciphers efficiently.</p>
             </div>
-            <p style="color: var(--text-muted); font-size: 1em; margin-bottom: 15px; font-weight: bold;">Developer: <a href="https://tanvir-tasin.pages.dev/" target="_blank" style="color: var(--primary); text-decoration: underline;">Tanvir Tasin</a></p>
+            <p style="color: var(--text-muted); font-size: 1em; margin-bottom: 15px; font-weight: bold; font-family: 'Outfit', sans-serif;">Developer: <a href="https://tanvir-tasin.pages.dev/" target="_blank" style="color: var(--primary); text-decoration: underline;">Tanvir Tasin</a></p>
             <button class="btn btn-popup" onclick="closeAbout()">
                 <i class="ph-bold ph-check-circle"></i> Awesome!
             </button>
@@ -442,28 +451,11 @@
                 </div>
                 <div class="mapping-table" id="numMapping"></div>
                 <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTab(this, 'num-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'num-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'num-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'num-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
                 </div>
-                <div id="num-encode" class="tab-content active">
-                    <div class="input-group">
-                        <div class="input-wrapper">
-                            <input type="text" id="numInp" placeholder="Enter Text..." oninput="execCipher('num', 'encode')">
-                            <button class="clear-btn" onclick="clearInput('numInp')"><i class="ph-bold ph-x"></i></button>
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-header">
-                            <span class="result-label">Result</span>
-                            <div class="action-group">
-                                <button class="action-btn save" onclick="saveHistory('Number Cipher', 'Encode', 'numInp', 'numOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
-                                <button class="action-btn copy" onclick="copyResult('numOut')"><i class="ph-bold ph-copy"></i> Copy</button>
-                            </div>
-                        </div>
-                        <div id="numOut"><span class="empty-state">Waiting for input...</span></div>
-                    </div>
-                </div>
-                <div id="num-decode" class="tab-content">
+                
+                <div id="num-decode" class="tab-content active">
                     <div class="input-group">
                         <div class="input-wrapper">
                             <input type="text" id="numDecInp" placeholder="Enter Numbers (e.g. 19 03)..." oninput="execCipher('num', 'decode')">
@@ -479,6 +471,25 @@
                             </div>
                         </div>
                         <div id="numDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+
+                <div id="num-encode" class="tab-content">
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="numInp" placeholder="Enter Text..." oninput="execCipher('num', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('numInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Result</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Number Cipher', 'Encode', 'numInp', 'numOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('numOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="numOut"><span class="empty-state">Waiting for input...</span></div>
                     </div>
                 </div>
             </div>
@@ -523,28 +534,11 @@
                 </div>
                 <div class="mapping-table" id="caesarMapping"></div>
                 <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTab(this, 'caesar-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'caesar-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'caesar-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'caesar-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
                 </div>
-                <div id="caesar-encode" class="tab-content active">
-                    <div class="input-group">
-                        <div class="input-wrapper">
-                            <input type="text" id="caesarInp" placeholder="Original text..." oninput="execCipher('caesar', 'encode')">
-                            <button class="clear-btn" onclick="clearInput('caesarInp')"><i class="ph-bold ph-x"></i></button>
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-header">
-                            <span class="result-label">Encoded</span>
-                            <div class="action-group">
-                                <button class="action-btn save" onclick="saveHistory('Shift Table', 'Encode', 'caesarInp', 'caesarOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
-                                <button class="action-btn copy" onclick="copyResult('caesarOut')"><i class="ph-bold ph-copy"></i> Copy</button>
-                            </div>
-                        </div>
-                        <div id="caesarOut"><span class="empty-state">Waiting for input...</span></div>
-                    </div>
-                </div>
-                <div id="caesar-decode" class="tab-content">
+                
+                <div id="caesar-decode" class="tab-content active">
                     <div class="input-group">
                         <div class="input-wrapper">
                             <input type="text" id="caesarDecInp" placeholder="Ciphered text..." oninput="execCipher('caesar', 'decode')">
@@ -560,6 +554,25 @@
                             </div>
                         </div>
                         <div id="caesarDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+
+                <div id="caesar-encode" class="tab-content">
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="caesarInp" placeholder="Original text..." oninput="execCipher('caesar', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('caesarInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Encoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Shift Table', 'Encode', 'caesarInp', 'caesarOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('caesarOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="caesarOut"><span class="empty-state">Waiting for input...</span></div>
                     </div>
                 </div>
             </div>
@@ -580,28 +593,11 @@
                 </div>
                 <div class="mapping-table" id="keyMapping"></div>
                 <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="switchTab(this, 'key-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'key-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'key-decode')"><i class="ph-bold ph-lock-key-open"></i> Decode</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'key-encode')"><i class="ph-bold ph-lock-key"></i> Encode</button>
                 </div>
-                <div id="key-encode" class="tab-content active">
-                    <div class="input-group">
-                        <div class="input-wrapper">
-                            <input type="text" id="keyMsgInp" placeholder="Type message..." oninput="execCipher('keyword', 'encode')">
-                            <button class="clear-btn" onclick="clearInput('keyMsgInp')"><i class="ph-bold ph-x"></i></button>
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-header">
-                            <span class="result-label">Encoded</span>
-                            <div class="action-group">
-                                <button class="action-btn save" onclick="saveHistory('Keyword Cipher', 'Encode', 'keyMsgInp', 'keyOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
-                                <button class="action-btn copy" onclick="copyResult('keyOut')"><i class="ph-bold ph-copy"></i> Copy</button>
-                            </div>
-                        </div>
-                        <div id="keyOut"><span class="empty-state">Waiting for input...</span></div>
-                    </div>
-                </div>
-                <div id="key-decode" class="tab-content">
+                
+                <div id="key-decode" class="tab-content active">
                     <div class="input-group">
                         <div class="input-wrapper">
                             <input type="text" id="keyMsgDecInp" placeholder="Type cipher..." oninput="execCipher('keyword', 'decode')">
@@ -617,6 +613,25 @@
                             </div>
                         </div>
                         <div id="keyDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+
+                <div id="key-encode" class="tab-content">
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="keyMsgInp" placeholder="Type message..." oninput="execCipher('keyword', 'encode')">
+                            <button class="clear-btn" onclick="clearInput('keyMsgInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Encoded</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Keyword Cipher', 'Encode', 'keyMsgInp', 'keyOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('keyOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="keyOut"><span class="empty-state">Waiting for input...</span></div>
                     </div>
                 </div>
             </div>
@@ -719,10 +734,30 @@
                 </div>
                 <div class="morse-dict" id="morseDictionary"></div>
                 <div class="tab-buttons" style="margin-top: 15px;">
-                    <button class="tab-btn active" onclick="switchTab(this, 'morse-encode')"><i class="ph-bold ph-text-t"></i> Text to Morse</button>
-                    <button class="tab-btn" onclick="switchTab(this, 'morse-decode')"><i class="ph-bold ph-radio-wave"></i> Morse to Text</button>
+                    <button class="tab-btn active" onclick="switchTab(this, 'morse-decode')"><i class="ph-bold ph-radio-wave"></i> Morse to Text</button>
+                    <button class="tab-btn" onclick="switchTab(this, 'morse-encode')"><i class="ph-bold ph-text-t"></i> Text to Morse</button>
                 </div>
-                <div id="morse-encode" class="tab-content active">
+                
+                <div id="morse-decode" class="tab-content active">
+                    <div class="input-group">
+                        <div class="input-wrapper">
+                            <input type="text" id="morseDecInp" placeholder="Use dots(.) and dashes(-)..." oninput="execCipher('morse', 'decode')">
+                            <button class="clear-btn" onclick="clearInput('morseDecInp')"><i class="ph-bold ph-x"></i></button>
+                        </div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-header">
+                            <span class="result-label">Text</span>
+                            <div class="action-group">
+                                <button class="action-btn save" onclick="saveHistory('Morse Code', 'Decode', 'morseDecInp', 'morseDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
+                                <button class="action-btn copy" onclick="copyResult('morseDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
+                            </div>
+                        </div>
+                        <div id="morseDecOut"><span class="empty-state">Waiting for input...</span></div>
+                    </div>
+                </div>
+
+                <div id="morse-encode" class="tab-content">
                     <div class="input-group">
                         <div class="input-wrapper">
                             <input type="text" id="morseInp" placeholder="Enter text..." oninput="execCipher('morse', 'encode')">
@@ -740,24 +775,6 @@
                         <div id="morseOut" style="font-size: 1.4em; font-weight: 800;"><span class="empty-state" style="font-size: 0.6em;">Waiting for input...</span></div>
                     </div>
                     <button class="btn" onclick="playMorse()" style="width: 100%;"><i class="ph-bold ph-speaker-high"></i> Play Audio Sound</button>
-                </div>
-                <div id="morse-decode" class="tab-content">
-                    <div class="input-group">
-                        <div class="input-wrapper">
-                            <input type="text" id="morseDecInp" placeholder="Use dots(.) and dashes(-)..." oninput="execCipher('morse', 'decode')">
-                            <button class="clear-btn" onclick="clearInput('morseDecInp')"><i class="ph-bold ph-x"></i></button>
-                        </div>
-                    </div>
-                    <div class="result-box">
-                        <div class="result-header">
-                            <span class="result-label">Text</span>
-                            <div class="action-group">
-                                <button class="action-btn save" onclick="saveHistory('Morse Code', 'Decode', 'morseDecInp', 'morseDecOut')"><i class="ph-bold ph-floppy-disk"></i> Save</button>
-                                <button class="action-btn copy" onclick="copyResult('morseDecOut')"><i class="ph-bold ph-copy"></i> Copy</button>
-                            </div>
-                        </div>
-                        <div id="morseDecOut"><span class="empty-state">Waiting for input...</span></div>
-                    </div>
                 </div>
             </div>
         </div>
